@@ -1,5 +1,6 @@
 #include "GameProgram.h"
 #include <iostream>
+#include "libraries/stb_image.h"
 
 GameProgram::~GameProgram() {
 	glfwTerminate();
@@ -7,8 +8,14 @@ GameProgram::~GameProgram() {
 
 void GameProgram::startProgram() {
 	setupWindow();
-	setupOpenGL();
+	setupLibraries();
 	renderLoop();
+}
+
+void GameProgram::setupLibraries() {
+	setupOpenGL();
+
+	stbi_set_flip_vertically_on_load(true);
 }
 
 void GameProgram::renderLoop() {
@@ -42,6 +49,8 @@ void GameProgram::setupOpenGL() {
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		throw std::runtime_error{ "Failed to initialize GLAD!" };
 	}
+
+	glEnable(GL_DEPTH_TEST);
 }
 
 void GameProgram::onWindowSizeChanged(GLFWwindow* window, int width, int height) {

@@ -24,6 +24,7 @@ private:
 	GLFWwindow* m_window{};
 
 	void setupWindow();
+	void setupLibraries();
 	void setupOpenGL();
 	void renderLoop();
 

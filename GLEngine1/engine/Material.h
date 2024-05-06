@@ -3,6 +3,8 @@
 #include <sstream>
 #include <glad/glad.h>
 #include <iostream>
+#include "Texture2D.h"
+#include <map>
 
 class Material final {
 public:
@@ -40,16 +42,35 @@ public:
 		return *this;
 	}
 
-	void use() {
+	void setTextureUnit(std::string_view uniformName, int textureUnit) {
+		glUniform1i(findUniformLocation(uniformName), textureUnit);
+	}
+
+	void setTexture2D(int textureUnit, const Texture2D* texture) {
+		if (texture)
+			m_textures[textureUnit] = texture;
+		else
+			m_textures.erase(textureUnit);
+	}
+
+	void use() const {
 		glUseProgram(m_programId);
+		for (const auto& pair : m_textures) {
+			pair.second->bindToTextureUnit(pair.first);
+		}
 	}
 
 private:
 	unsigned int m_programId{};
 	const char* m_vertexPath{};
 	const char* m_fragmentPath{};
+	std::map<int, const Texture2D*> m_textures{};
 
 	unsigned int link();
 
 	unsigned int compileShader(GLenum type, const char* path);
+
+	GLint findUniformLocation(std::string_view name) const {
+		return glGetUniformLocation(m_programId, name.data());
+	}
 };

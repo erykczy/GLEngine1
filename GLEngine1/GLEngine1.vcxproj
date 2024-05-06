@@ -152,9 +152,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="engine\components\MeshRenderer.cpp" />
+    <ClCompile Include="engine\GameObject.cpp" />
     <ClCompile Include="engine\GameProgram.cpp" />
-    <ClCompile Include="engine\glad.c" />
+    <ClCompile Include="engine\libraries\glad.c" />
+    <ClCompile Include="engine\libraries\stb_image.cpp" />
     <ClCompile Include="engine\Material.cpp" />
+    <ClCompile Include="engine\Mesh.cpp" />
+    <ClCompile Include="engine\Scene.cpp" />
+    <ClCompile Include="engine\Texture2D.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -163,9 +169,11 @@
     <ClInclude Include="engine\components\MeshRenderer.h" />
     <ClInclude Include="engine\GameObject.h" />
     <ClInclude Include="engine\GameProgram.h" />
+    <ClInclude Include="engine\libraries\stb_image.h" />
     <ClInclude Include="engine\Mesh.h" />
     <ClInclude Include="engine\Scene.h" />
     <ClInclude Include="engine\Material.h" />
+    <ClInclude Include="engine\Texture2D.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\default\fragment.glsl" />

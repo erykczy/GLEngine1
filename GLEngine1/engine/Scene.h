@@ -10,21 +10,17 @@ public:
 	Scene& operator=(const Scene&) = delete;
 
 	GameObject& createGameObject() {
-		return m_gameObjects.emplace_back();
+		m_gameObjects.push_back(std::make_unique<GameObject>());
+		return *(m_gameObjects.back());
 	}
 	
-	void render() {
-		glClearColor(0.5, 0.5, 0.5, 1.0);
-		glClear(GL_COLOR_BUFFER_BIT);
-
-		for (auto& element : m_gameObjects) element.render();
-	}
+	void render();
 
 	void update() {
-		for (auto& element : m_gameObjects) element.update();
+		for (auto& element : m_gameObjects) element->update();
 	}
 
 private:
-	std::vector<GameObject> m_gameObjects{};
+	std::vector<std::unique_ptr<GameObject>> m_gameObjects{};
 
 };
