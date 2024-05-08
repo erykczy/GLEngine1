@@ -1,7 +1,7 @@
 #pragma once
+
 #include <vector>
-#include <glm/glm.hpp>
-#include <iostream>
+#include <type_traits>
 
 class Mesh final {
 public:

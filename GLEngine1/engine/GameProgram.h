@@ -1,12 +1,16 @@
 #pragma once
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include "AppConstants.h"
-#include "Scene.h"
+
+struct GLFWwindow;
+class Window;
+class Scene;
 
 class GameProgram {
 public:
-	GameProgram() = default;
+	static GameProgram* s_runningProgram;
+	Window* activeWindow{};
+	Scene* activeScene{};
+
+	GameProgram();
 
 	virtual ~GameProgram();
 	GameProgram(const GameProgram&) = delete;
@@ -15,18 +19,13 @@ public:
 	void startProgram();
 
 protected:
-	Scene m_activeScene{};
-
 	virtual void start() = 0;
 	virtual void update() = 0;
 
 private:
-	GLFWwindow* m_window{};
-
 	void setupWindow();
 	void setupLibraries();
 	void setupOpenGL();
+	void setupScene();
 	void renderLoop();
-
-	static void onWindowSizeChanged(GLFWwindow* window, int width, int height);
 };

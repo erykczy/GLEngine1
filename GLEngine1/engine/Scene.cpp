@@ -1,8 +1,23 @@
-#include "Scene.h"
+#include "engine/Scene.h"
 
-void Scene::render() {
-	glClearColor(0.5, 0.5, 0.5, 1.0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+#include "engine/GameObject.h"
+#include "engine/components/Camera.h"
+#include "engine/Debug.h"
 
-	for (auto& element : m_gameObjects) element->render();
+GameObject& Scene::createGameObject() {
+	m_gameObjects.push_back(std::make_unique<GameObject>(this));
+	return *(m_gameObjects.back());
+}
+
+void Scene::update() {
+	for (auto& element : m_gameObjects) element->update();
+}
+
+void Scene::renderToActiveCamera() {
+	if (m_activeCamera) {
+		m_activeCamera->renderScene();
+	}
+	else {
+		Debug::log(Debug::warning, "There is no active camera!");
+	}
 }

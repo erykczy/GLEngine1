@@ -1,14 +1,31 @@
-#include "GameProgram.h"
-#include <iostream>
+#include "engine/GameProgram.h"
+
+#include "engine/AppConstants.h"
+#include "engine/Window.h"
+#include "engine/Scene.h"
 #include "libraries/stb_image.h"
 
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include <stdexcept>
+
+GameProgram* GameProgram::s_runningProgram{};
+
+GameProgram::GameProgram() {
+	if (s_runningProgram)
+		throw std::runtime_error("Only 1 program can be instantiated!");
+	s_runningProgram = this;
+}
+
 GameProgram::~GameProgram() {
-	glfwTerminate();
+	delete activeScene;
+	delete activeWindow;
 }
 
 void GameProgram::startProgram() {
 	setupWindow();
 	setupLibraries();
+	setupScene();
 	renderLoop();
 }
 
@@ -18,31 +35,8 @@ void GameProgram::setupLibraries() {
 	stbi_set_flip_vertically_on_load(true);
 }
 
-void GameProgram::renderLoop() {
-	start();
-	while (!glfwWindowShouldClose(m_window)) {
-		update();
-		m_activeScene.update();
-
-		m_activeScene.render();
-
-		glfwSwapBuffers(m_window);
-		glfwPollEvents();
-	}
-}
-
 void GameProgram::setupWindow() {
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, AppConstants::openGLVersionMajor);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, AppConstants::openGLVersionMinor);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-#ifdef __APPLE__
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#endif
-	m_window = glfwCreateWindow(AppConstants::screenWidth, AppConstants::screenHeight, AppConstants::windowTitle, NULL, NULL);
-	if (m_window == NULL) throw std::runtime_error{ "Failed to create GLFW window!" };
-	glfwMakeContextCurrent(m_window);
-	glfwSetFramebufferSizeCallback(m_window, onWindowSizeChanged);
+	activeWindow = new Window{ AppConstants::defaultScreenWidth, AppConstants::defaultScreenHeight, AppConstants::windowTitle };
 }
 
 void GameProgram::setupOpenGL() {
@@ -53,6 +47,20 @@ void GameProgram::setupOpenGL() {
 	glEnable(GL_DEPTH_TEST);
 }
 
-void GameProgram::onWindowSizeChanged(GLFWwindow* window, int width, int height) {
-	glViewport(0, 0, width, height);
+void GameProgram::setupScene() {
+	activeScene = new Scene{};
 }
+
+void GameProgram::renderLoop() {
+	start();
+	while (!activeWindow->isClosed()) {
+		update();
+		activeScene->update();
+
+		activeScene->renderToActiveCamera();
+
+		activeWindow->swapBuffers();
+		activeWindow->pollEvents();
+	}
+}
+

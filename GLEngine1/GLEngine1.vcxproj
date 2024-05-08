@@ -72,19 +72,19 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>D:\Libraries\OpenGL\includes;$(IncludePath)</IncludePath>
+    <IncludePath>D:\Libraries\OpenGL\includes;D:\DEV\OpenGL\GLEngine1\GLEngine1;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Libraries\OpenGL\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>D:\Libraries\OpenGL\includes;$(IncludePath)</IncludePath>
+    <IncludePath>D:\Libraries\OpenGL\includes;D:\DEV\OpenGL\GLEngine1\GLEngine1;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Libraries\OpenGL\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\Libraries\OpenGL\includes;$(IncludePath)</IncludePath>
+    <IncludePath>D:\Libraries\OpenGL\includes;D:\DEV\OpenGL\GLEngine1\GLEngine1;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Libraries\OpenGL\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>D:\Libraries\OpenGL\includes;$(IncludePath)</IncludePath>
+    <IncludePath>D:\Libraries\OpenGL\includes;D:\DEV\OpenGL\GLEngine1\GLEngine1;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Libraries\OpenGL\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -152,7 +152,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="engine\components\Camera.cpp" />
+    <ClCompile Include="engine\components\Component.cpp" />
     <ClCompile Include="engine\components\MeshRenderer.cpp" />
+    <ClCompile Include="engine\components\Transform.cpp" />
     <ClCompile Include="engine\GameObject.cpp" />
     <ClCompile Include="engine\GameProgram.cpp" />
     <ClCompile Include="engine\libraries\glad.c" />
@@ -161,19 +164,27 @@
     <ClCompile Include="engine\Mesh.cpp" />
     <ClCompile Include="engine\Scene.cpp" />
     <ClCompile Include="engine\Texture2D.cpp" />
+    <ClCompile Include="engine\Window.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\AppConstants.h" />
+    <ClInclude Include="engine\components\Camera.h" />
     <ClInclude Include="engine\components\Component.h" />
     <ClInclude Include="engine\components\MeshRenderer.h" />
+    <ClInclude Include="engine\components\Transform.h" />
+    <ClInclude Include="engine\Debug.h" />
+    <ClInclude Include="engine\IEventSender.h" />
     <ClInclude Include="engine\GameObject.h" />
     <ClInclude Include="engine\GameProgram.h" />
     <ClInclude Include="engine\libraries\stb_image.h" />
+    <ClInclude Include="engine\Mathf.h" />
     <ClInclude Include="engine\Mesh.h" />
     <ClInclude Include="engine\Scene.h" />
     <ClInclude Include="engine\Material.h" />
     <ClInclude Include="engine\Texture2D.h" />
+    <ClInclude Include="engine\Window.h" />
+    <ClInclude Include="engine\IWindowEventListener.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\default\fragment.glsl" />

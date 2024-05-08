@@ -1,4 +1,11 @@
-#include "Texture2D.h"
+#include "engine/Texture2D.h"
+
+#include "libraries/stb_image.h"
+
+#include <glad/glad.h>
+
+#include <string>
+#include <stdexcept>
 
 Texture2D::Texture2D(std::string_view path, Format format) : m_path{ path } {
 	// create texture object

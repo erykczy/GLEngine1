@@ -1,17 +1,16 @@
 #pragma once
-#include "Component.h"
-#include "../Mesh.h"
-#include <vector>
-#include <glm/glm.hpp>
-#include <glad/glad.h>
-#include "../Material.h"
+#include "engine/components/Component.h"
+#include "engine/Mesh.h"
+
+class Material;
 
 class MeshRenderer : public Component {
 public:
-	MeshRenderer();
+	using Component::Component;
 	~MeshRenderer();
 
-	void render() override;
+	void awake() override;
+	void render(Camera* camera) override;
 
 	void setMesh(Mesh mesh);
 	void setMaterial(Material* material) { m_material = material; }

@@ -1,5 +1,83 @@
 #pragma once
-#include "Material.h"
+#include "engine/Material.h"
+
+#include "engine/Texture2D.h"
+
+#include <glad/glad.h>
+#include <glm/gtc/type_ptr.hpp>
+
+#include <stdexcept>
+#include <fstream>
+#include <sstream>
+
+Material::Material(const char* vertexPath, const char* fragmentPath) : m_vertexPath(vertexPath), m_fragmentPath(fragmentPath) {
+	m_programId = link();
+}
+
+Material::~Material() {
+	glDeleteProgram(m_programId);
+}
+
+Material& Material::operator=(const Material& source) {
+	if (&source == this) return *this;
+	glDeleteProgram(m_programId);
+	m_vertexPath = source.m_vertexPath;
+	m_fragmentPath = source.m_fragmentPath;
+	return *this;
+}
+
+Material::Material(Material&& source) noexcept {
+	m_programId = source.m_programId;
+	m_vertexPath = source.m_vertexPath;
+	m_fragmentPath = source.m_fragmentPath;
+
+	source.m_programId = 0;
+}
+
+Material& Material::operator=(Material&& source) noexcept {
+	if (&source == this) return *this;
+	glDeleteProgram(m_programId);
+
+	m_programId = source.m_programId;
+	m_vertexPath = source.m_vertexPath;
+	m_fragmentPath = source.m_fragmentPath;
+
+	source.m_programId = 0;
+	return *this;
+}
+
+void Material::setSpaceTransformMatricies(glm::mat4 modelMatrix, glm::mat4 viewMatrix, glm::mat4 projectionMatrix) {
+	setMatrix4x4("model", modelMatrix);
+	setMatrix4x4("view", viewMatrix);
+	setMatrix4x4("projection", projectionMatrix);
+}
+
+// TODO may be not used (glUseProgram())
+void Material::setTextureUnit(std::string_view uniformName, int textureUnit) {
+	glUniform1i(findUniformLocation(uniformName), textureUnit);
+}
+
+void Material::setMatrix4x4(std::string_view uniformName, glm::mat4 matrix) {
+	glUniformMatrix4fv(findUniformLocation(uniformName), 1, GL_FALSE, glm::value_ptr(matrix));
+}
+
+void Material::setTexture2D(int textureUnit, const Texture2D* texture) {
+	if (texture)
+		m_textures[textureUnit] = texture;
+	else
+		m_textures.erase(textureUnit);
+}
+
+void Material::use() const {
+	glUseProgram(m_programId);
+	for (const auto& pair : m_textures) {
+		pair.second->bindToTextureUnit(pair.first);
+	}
+}
+
+int Material::findUniformLocation(std::string_view name) const {
+	return glGetUniformLocation(m_programId, name.data());
+}
 
 unsigned int Material::link() {
 	unsigned int program{ glCreateProgram() };
@@ -25,7 +103,7 @@ unsigned int Material::link() {
 	return program;
 }
 
-unsigned int Material::compileShader(GLenum type, const char* path) {
+unsigned int Material::compileShader(GLEnum type, const char* path) {
 	std::ifstream file{};
 	file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 
