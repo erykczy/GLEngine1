@@ -45,7 +45,7 @@ void Camera::setFarPlane(float value) {
 
 void Camera::setAspectRatio(float value) {
 	if (m_autoAspectRatio)
-		Debug::logInfo("You are trying to change aspect ratio while it is updated automatically. Change autoAspectRatio value!");
+		Debug::log(Debug::warning, "You are trying to change aspect ratio while it is updated automatically. Change autoAspectRatio value!");
 	m_aspectRatio = value;
 	updateProjectionMatrix();
 }

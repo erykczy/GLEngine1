@@ -30,7 +30,7 @@ public:
 	void setAutoAspectRatio(bool value);
 
 	void onWindowSizeChanged(Window* window) override {
-		Debug::logInfo("Window size changed! width: ");
+		Debug::log(Debug::debug, "Window size changed! width: ");
 	}
 
 private:
