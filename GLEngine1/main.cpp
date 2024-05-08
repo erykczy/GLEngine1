@@ -1,3 +1,4 @@
+#include "CameraController.h"
 #include "engine/GameProgram.h"
 #include "engine/components/MeshRenderer.h"
 #include "engine/Mathf.h"
@@ -8,11 +9,11 @@
 #include "engine/Texture2D.h"
 #include "engine/Scene.h"
 #include "engine/components/Transform.h"
-#include "CameraController.h"
+#include "engine/Input.h"
+#include "engine/Time.h"
 
 #include <iostream>
 #include <stdexcept>
-#include <engine/Input.h>
 
 class Program final : public GameProgram {
 public:
@@ -27,6 +28,7 @@ private:
 
 	void start() override {
 		Input::setCursorVisible(false);
+		Time::setTimeScale(3.0f);
 		m_texture = new Texture2D{ "textures/texture.png", Texture2D::rgba };
 
 		m_defaultMaterial = new Material{ "shaders/default/vertex.glsl", "shaders/default/fragment.glsl" };
@@ -50,8 +52,7 @@ private:
 	}
 
 	void update() override {
-		m_myplane->transform->eulerAngles += glm::vec3{ 0.01f, 0.0f, 0.0f };
-		//activeScene->getActiveCamera()->transform->eulerAngles += glm::vec3{ 0.01f, 0.0f, 0.0f };
+		m_myplane->transform->eulerAngles += glm::vec3{ 1.0f * Time::getDeltaTime(), 0.0f, 0.0f};
 	}
 };
 

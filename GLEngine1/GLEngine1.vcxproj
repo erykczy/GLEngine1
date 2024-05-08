@@ -166,6 +166,7 @@
     <ClCompile Include="engine\Mesh.cpp" />
     <ClCompile Include="engine\Scene.cpp" />
     <ClCompile Include="engine\Texture2D.cpp" />
+    <ClCompile Include="engine\Time.cpp" />
     <ClCompile Include="engine\Window.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -187,6 +188,7 @@
     <ClInclude Include="engine\Scene.h" />
     <ClInclude Include="engine\Material.h" />
     <ClInclude Include="engine\Texture2D.h" />
+    <ClInclude Include="engine\Time.h" />
     <ClInclude Include="engine\Window.h" />
     <ClInclude Include="engine\IWindowEventListener.h" />
   </ItemGroup>

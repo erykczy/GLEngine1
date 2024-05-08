@@ -3,6 +3,7 @@
 #include "engine/Input.h"
 #include "engine/components/Transform.h"
 #include "engine/Debug.h"
+#include "engine/Time.h"
 
 #include <GLFW/glfw3.h>
 
@@ -18,10 +19,10 @@ void CameraController::update() {
 		transform->eulerAngles.z -= rotationSpeed;
 	}*/
 
-	float speedMultiplier{ 1.0f };
+	float speedMultiplier{ Time::getUnscaledDeltaTime() };
 
 	if (Input::isKeyDown(GLFW_KEY_LEFT_SHIFT)) {
-		speedMultiplier = 2.0f;
+		speedMultiplier *= 2.0f;
 	}
 
 	if (Input::isKeyDown(GLFW_KEY_W)) {

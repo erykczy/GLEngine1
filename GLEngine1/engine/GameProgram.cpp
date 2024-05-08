@@ -4,6 +4,7 @@
 #include "engine/Window.h"
 #include "engine/Scene.h"
 #include "engine/Input.h"
+#include "engine/Time.h"
 #include "libraries/stb_image.h"
 
 #include <glad/glad.h>
@@ -47,6 +48,7 @@ void GameProgram::setupOpenGL() {
 void GameProgram::renderLoop() {
 	start();
 	while (!activeWindow->isClosed()) {
+		Time::onFrameStart();
 		update();
 		activeScene->update();
 
