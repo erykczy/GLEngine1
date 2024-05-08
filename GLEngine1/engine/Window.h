@@ -5,6 +5,7 @@
 #include <string_view>
 
 struct GLFWwindow;
+class Input;
 
 class Window final : public IEventSender<IWindowEventListener> {
 public:
@@ -23,6 +24,8 @@ public:
 	float getAspectRatio() const { return static_cast<float>(m_width) / m_height; }
 
 	static void onWindowSizeChanged(GLFWwindow* window, int width, int height);
+
+	friend Input;
 
 private:
 	GLFWwindow* m_glfw_window{};

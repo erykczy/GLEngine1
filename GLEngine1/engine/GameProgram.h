@@ -3,12 +3,14 @@
 struct GLFWwindow;
 class Window;
 class Scene;
+class Input;
 
 class GameProgram {
 public:
 	static GameProgram* s_runningProgram;
 	Window* activeWindow{};
 	Scene* activeScene{};
+	Input* input{};
 
 	GameProgram();
 
@@ -23,9 +25,7 @@ protected:
 	virtual void update() = 0;
 
 private:
-	void setupWindow();
 	void setupLibraries();
 	void setupOpenGL();
-	void setupScene();
 	void renderLoop();
 };

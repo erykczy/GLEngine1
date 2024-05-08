@@ -8,6 +8,7 @@
 #include "engine/Texture2D.h"
 #include "engine/Scene.h"
 #include "engine/components/Transform.h"
+#include "CameraController.h"
 
 #include <iostream>
 #include <stdexcept>
@@ -42,6 +43,8 @@ private:
 		cameraObj.transform->position = { 0.0, 0.0, -5.0 };
 		camera.setAutoAspectRatio(true);
 		activeScene->setActiveCamera(&camera);
+
+		cameraObj.addComponent<CameraController>();
 
 		// Experiment
 		auto& dummyObj{ activeScene->createGameObject() };

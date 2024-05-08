@@ -3,6 +3,7 @@
 #include "engine/AppConstants.h"
 #include "engine/Window.h"
 #include "engine/Scene.h"
+#include "engine/Input.h"
 #include "libraries/stb_image.h"
 
 #include <glad/glad.h>
@@ -18,25 +19,22 @@ GameProgram::GameProgram() {
 }
 
 GameProgram::~GameProgram() {
+	delete input;
 	delete activeScene;
 	delete activeWindow;
 }
 
 void GameProgram::startProgram() {
-	setupWindow();
 	setupLibraries();
-	setupScene();
+	activeWindow = new Window{ AppConstants::defaultScreenWidth, AppConstants::defaultScreenHeight, AppConstants::windowTitle };
+	setupOpenGL();
+	activeScene = new Scene{};
+	input = new Input{ activeWindow };
 	renderLoop();
 }
 
 void GameProgram::setupLibraries() {
-	setupOpenGL();
-
 	stbi_set_flip_vertically_on_load(true);
-}
-
-void GameProgram::setupWindow() {
-	activeWindow = new Window{ AppConstants::defaultScreenWidth, AppConstants::defaultScreenHeight, AppConstants::windowTitle };
 }
 
 void GameProgram::setupOpenGL() {
@@ -45,10 +43,6 @@ void GameProgram::setupOpenGL() {
 	}
 
 	glEnable(GL_DEPTH_TEST);
-}
-
-void GameProgram::setupScene() {
-	activeScene = new Scene{};
 }
 
 void GameProgram::renderLoop() {
@@ -61,6 +55,7 @@ void GameProgram::renderLoop() {
 
 		activeWindow->swapBuffers();
 		activeWindow->pollEvents();
+		input->clearFrameData();
 	}
 }
 
