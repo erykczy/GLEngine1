@@ -10,18 +10,20 @@
 #include <glm/ext/matrix_transform.hpp>
 #include <glad/glad.h>
 
+void Camera::awake() {
+	updateProjectionMatrix();
+}
+
 void Camera::renderScene() {
 	glClearColor(0.5, 0.5, 0.5, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	for (auto& element : transform->scene->m_gameObjects)
-		element->render();
+		element->render(this);
 }
 
-glm::mat4 Camera::createViewMatrix() {
-	glm::mat4 matrix{ 1.0 };
-	matrix = glm::translate(matrix, glm::vec3{ 0.0, 0.0, 3.0 });
-	return matrix;
+glm::mat4 Camera::createViewMatrix() const {
+	return glm::lookAt(transform->position, transform->position + transform->getForward(), transform->getUp());;
 }
 
 void Camera::updateProjectionMatrix() {
@@ -56,4 +58,12 @@ void Camera::setAutoAspectRatio(bool value) {
 		m_aspectRatio = Window::s_activeWindow->getAspectRatio();
 		Window::s_activeWindow->addListener(this);
 	}
+	else {
+		Window::s_activeWindow->removeListener(this);
+	}
+}
+
+void Camera::onWindowSizeChanged(Window* window) {
+	m_aspectRatio = window->getAspectRatio();
+	updateProjectionMatrix();
 }

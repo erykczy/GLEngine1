@@ -2,6 +2,7 @@
 
 class Transform;
 class GameObject;
+class Camera;
 
 class Component {
 public:
@@ -15,5 +16,5 @@ public:
 
 	virtual void awake() {}
 	virtual void update() {}
-	virtual void render() {}
+	virtual void render(Camera* camera) {}
 };

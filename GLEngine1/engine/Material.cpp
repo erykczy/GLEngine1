@@ -4,6 +4,8 @@
 #include "engine/Texture2D.h"
 
 #include <glad/glad.h>
+#include <glm/gtc/type_ptr.hpp>
+
 #include <stdexcept>
 #include <fstream>
 #include <sstream>
@@ -44,8 +46,19 @@ Material& Material::operator=(Material&& source) noexcept {
 	return *this;
 }
 
+void Material::setSpaceTransformMatricies(glm::mat4 modelMatrix, glm::mat4 viewMatrix, glm::mat4 projectionMatrix) {
+	setMatrix4x4("model", modelMatrix);
+	setMatrix4x4("view", viewMatrix);
+	setMatrix4x4("projection", projectionMatrix);
+}
+
+// TODO may be not used (glUseProgram())
 void Material::setTextureUnit(std::string_view uniformName, int textureUnit) {
 	glUniform1i(findUniformLocation(uniformName), textureUnit);
+}
+
+void Material::setMatrix4x4(std::string_view uniformName, glm::mat4 matrix) {
+	glUniformMatrix4fv(findUniformLocation(uniformName), 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
 void Material::setTexture2D(int textureUnit, const Texture2D* texture) {
@@ -90,7 +103,7 @@ unsigned int Material::link() {
 	return program;
 }
 
-unsigned int Material::compileShader(GLenum type, const char* path) {
+unsigned int Material::compileShader(GLEnum type, const char* path) {
 	std::ifstream file{};
 	file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 

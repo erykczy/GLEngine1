@@ -1,6 +1,7 @@
 #include "engine/GameObject.h"
 
 #include "engine/components/Transform.h"
+#include "engine/components/Camera.h"
 
 GameObject::GameObject(Scene* _scene) : scene{ _scene } {
 	transform = &addComponent<Transform>();
@@ -17,6 +18,6 @@ void GameObject::update() {
 	for (auto* element : m_components) element->update();
 }
 
-void GameObject::render() {
-	for (auto* element : m_components) element->render();
+void GameObject::render(Camera* camera) {
+	for (auto* element : m_components) element->render(camera);
 }

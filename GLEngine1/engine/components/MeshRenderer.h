@@ -10,7 +10,7 @@ public:
 	~MeshRenderer();
 
 	void awake() override;
-	void render() override;
+	void render(Camera* camera) override;
 
 	void setMesh(Mesh mesh);
 	void setMaterial(Material* material) { m_material = material; }

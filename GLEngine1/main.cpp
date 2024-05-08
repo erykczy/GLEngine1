@@ -7,6 +7,7 @@
 #include "engine/Mesh.h"
 #include "engine/Texture2D.h"
 #include "engine/Scene.h"
+#include "engine/components/Transform.h"
 
 #include <iostream>
 #include <stdexcept>
@@ -20,6 +21,7 @@ public:
 private:
 	Material* m_defaultMaterial{};
 	Texture2D* m_texture{};
+	GameObject* m_myplane;
 
 	void start() override {
 		m_texture = new Texture2D{ "textures/texture.png", Texture2D::rgba };
@@ -28,20 +30,23 @@ private:
 		m_defaultMaterial->setTextureUnit("MainTex", 0);
 		m_defaultMaterial->setTexture2D(0, m_texture);
 
-		auto& obj{ activeScene->createGameObject() };
-		auto& meshRenderer = obj.addComponent<MeshRenderer>();
+		m_myplane = &activeScene->createGameObject();
+		auto& meshRenderer = m_myplane->addComponent<MeshRenderer>();
 		Mesh mesh{ Mathf::createPlane() };
 		meshRenderer.setMesh(mesh);
 		meshRenderer.setMaterial(m_defaultMaterial);
+		m_myplane->transform->eulerAngles = { 1.0f, 0.0f, 0.0f };
 
 		auto& cameraObj{ activeScene->createGameObject() };
 		auto& camera{ cameraObj.addComponent<Camera>() };
+		cameraObj.transform->position = { 0.0, 0.0, 5.0 };
 		camera.setAutoAspectRatio(true);
 		activeScene->setActiveCamera(&camera);
 	}
 
 	void update() override {
-
+		m_myplane->transform->eulerAngles += glm::vec3{ 0.01f, 0.0f, 0.0f };
+		//activeScene->getActiveCamera()->transform->eulerAngles += glm::vec3{ 0.01f, 0.0f, 0.0f };
 	}
 };
 

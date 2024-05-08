@@ -1,5 +1,7 @@
 #include "engine/components/MeshRenderer.h"
 
+#include "engine/components/Transform.h"
+#include "engine/components/Camera.h"
 #include "engine/Material.h"
 
 #include <glad/glad.h>
@@ -31,8 +33,9 @@ MeshRenderer::~MeshRenderer() {
 	glDeleteBuffers(1, &m_ebo);
 }
 
-void MeshRenderer::render() {
+void MeshRenderer::render(Camera* camera) {
 	m_material->use();
+	m_material->setSpaceTransformMatricies(transform->createModelMatrix(), camera->createViewMatrix(), camera->getProjectionMatrix());
 	glBindVertexArray(m_vao);
 	glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_mesh.indicies.size()), GL_UNSIGNED_INT, 0);
 }

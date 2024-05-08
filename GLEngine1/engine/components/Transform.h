@@ -19,4 +19,6 @@ public:
 	glm::vec3 eulerAngles{};
 
 	glm::mat4 createModelMatrix();
+	glm::vec3 getForward();
+	glm::vec3 getUp();
 };

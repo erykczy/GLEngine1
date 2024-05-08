@@ -5,6 +5,7 @@
 class Scene;
 class Transform;
 class Component;
+class Camera;
 
 class GameObject final {
 public:
@@ -24,7 +25,7 @@ public:
 	T& addComponent();
 
 	void update();
-	void render();
+	void render(Camera* camera);
 
 private:
 	std::vector<Component*> m_components{};

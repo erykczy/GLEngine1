@@ -36,7 +36,7 @@ void GameProgram::setupLibraries() {
 }
 
 void GameProgram::setupWindow() {
-	activeWindow = new Window{ AppConstants::screenWidth, AppConstants::screenHeight, AppConstants::windowTitle };
+	activeWindow = new Window{ AppConstants::defaultScreenWidth, AppConstants::defaultScreenHeight, AppConstants::windowTitle };
 }
 
 void GameProgram::setupOpenGL() {
