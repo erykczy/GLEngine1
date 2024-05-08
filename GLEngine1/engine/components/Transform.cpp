@@ -24,5 +24,9 @@ glm::vec3 Transform::getForward() {
 }
 
 glm::vec3 Transform::getUp() {
-	return Mathf::eulerAnglesToUpVector(eulerAngles);
+	return Mathf::rotateVector(glm::vec3(0.0f, 1.0f, 0.0f), eulerAngles);
+}
+
+glm::vec3 Transform::getRight() {
+	return Mathf::rotateVector(glm::vec3(1.0f, 0.0f, 0.0f), eulerAngles);
 }

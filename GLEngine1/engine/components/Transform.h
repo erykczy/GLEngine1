@@ -21,4 +21,5 @@ public:
 	glm::mat4 createModelMatrix();
 	glm::vec3 getForward();
 	glm::vec3 getUp();
+	glm::vec3 getRight();
 };

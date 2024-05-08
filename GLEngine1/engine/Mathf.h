@@ -66,23 +66,20 @@ namespace Mathf {
 	}
 
 	inline glm::mat4& rotate(glm::mat4& mat, glm::vec3 eulerAngles) {
-		mat = glm::rotate(mat, eulerAngles.x, glm::vec3(1.0, 0.0, 0.0));
 		mat = glm::rotate(mat, eulerAngles.y, glm::vec3(0.0, 1.0, 0.0));
+		mat = glm::rotate(mat, eulerAngles.x, glm::vec3(1.0, 0.0, 0.0));
 		mat = glm::rotate(mat, eulerAngles.z, glm::vec3(0.0, 0.0, 1.0));
 		return mat;
 	}
 
-	inline glm::vec3 eulerAnglesToDirection(glm::vec3 eulerAngles) {
+	inline glm::vec3 rotateVector(glm::vec3 vec, glm::vec3 eulerAngles) {
 		glm::mat4 mat{ 1.0 };
 		mat = Mathf::rotate(mat, eulerAngles);
 
-		return mat * glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+		return mat * glm::vec4(vec, 1.0f);
 	}
 
-	inline glm::vec3 eulerAnglesToUpVector(glm::vec3 eulerAngles) {
-		glm::mat4 mat{ 1.0 };
-		mat = Mathf::rotate(mat, eulerAngles);
-
-		return mat * glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+	inline glm::vec3 eulerAnglesToDirection(glm::vec3 eulerAngles) {
+		return rotateVector(glm::vec3(0.0f, 0.0f, 1.0f), eulerAngles);
 	}
 }
