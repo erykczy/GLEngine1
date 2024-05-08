@@ -76,7 +76,7 @@ namespace Mathf {
 		glm::mat4 mat{ 1.0 };
 		mat = Mathf::rotate(mat, eulerAngles);
 
-		return mat * glm::vec4(0.0f, 0.0f, -1.0f, 1.0f);
+		return mat * glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
 	}
 
 	inline glm::vec3 eulerAnglesToUpVector(glm::vec3 eulerAngles) {
