@@ -1,4 +1,9 @@
-#include "Mesh.h"
+#include "engine/Mesh.h"
+
+#include <stdexcept>
+#include <assert.h>
+#include <vector>
+#include <typeinfo>
 
 Mesh::Mesh(const std::vector<float>& _vertices, const std::vector<unsigned int>& _indicies) : Mesh{ _vertices, _indicies, std::vector<float>(_vertices.size()) } {}
 

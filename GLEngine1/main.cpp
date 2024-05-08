@@ -1,5 +1,15 @@
 #include "engine/GameProgram.h"
 #include "engine/components/MeshRenderer.h"
+#include "engine/Mathf.h"
+#include "engine/components/Camera.h"
+#include "engine/GameObject.h"
+#include "engine/Material.h"
+#include "engine/Mesh.h"
+#include "engine/Texture2D.h"
+#include "engine/Scene.h"
+
+#include <iostream>
+#include <stdexcept>
 
 class Program final : public GameProgram {
 public:
@@ -18,28 +28,16 @@ private:
 		m_defaultMaterial->setTextureUnit("MainTex", 0);
 		m_defaultMaterial->setTexture2D(0, m_texture);
 
-		auto& obj{ m_activeScene.createGameObject() };
+		auto& obj{ activeScene->createGameObject() };
 		auto& meshRenderer = obj.addComponent<MeshRenderer>();
-		Mesh mesh{
-			{
-				-0.5f, -0.5f, 0.0f,
-				0.5f, -0.5f, 0.0f,
-				0.5f, 0.5f, 0.0f,
-				-0.5f, 0.5f, 0.0f
-			},
-			{
-				0, 2, 1,
-				0, 3, 2
-			},
-			{
-				0.0, 0.0,
-				1.0, 0.0,
-				1.0, 1.0,
-				0.0, 1.0
-			}
-		};
+		Mesh mesh{ Mathf::createPlane() };
 		meshRenderer.setMesh(mesh);
 		meshRenderer.setMaterial(m_defaultMaterial);
+
+		auto& cameraObj{ activeScene->createGameObject() };
+		auto& camera{ cameraObj.addComponent<Camera>() };
+		camera.setAutoAspectRatio(true);
+		activeScene->setActiveCamera(&camera);
 	}
 
 	void update() override {

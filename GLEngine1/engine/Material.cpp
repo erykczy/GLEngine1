@@ -1,5 +1,70 @@
 #pragma once
-#include "Material.h"
+#include "engine/Material.h"
+
+#include "engine/Texture2D.h"
+
+#include <glad/glad.h>
+#include <stdexcept>
+#include <fstream>
+#include <sstream>
+
+Material::Material(const char* vertexPath, const char* fragmentPath) : m_vertexPath(vertexPath), m_fragmentPath(fragmentPath) {
+	m_programId = link();
+}
+
+Material::~Material() {
+	glDeleteProgram(m_programId);
+}
+
+Material& Material::operator=(const Material& source) {
+	if (&source == this) return *this;
+	glDeleteProgram(m_programId);
+	m_vertexPath = source.m_vertexPath;
+	m_fragmentPath = source.m_fragmentPath;
+	return *this;
+}
+
+Material::Material(Material&& source) noexcept {
+	m_programId = source.m_programId;
+	m_vertexPath = source.m_vertexPath;
+	m_fragmentPath = source.m_fragmentPath;
+
+	source.m_programId = 0;
+}
+
+Material& Material::operator=(Material&& source) noexcept {
+	if (&source == this) return *this;
+	glDeleteProgram(m_programId);
+
+	m_programId = source.m_programId;
+	m_vertexPath = source.m_vertexPath;
+	m_fragmentPath = source.m_fragmentPath;
+
+	source.m_programId = 0;
+	return *this;
+}
+
+void Material::setTextureUnit(std::string_view uniformName, int textureUnit) {
+	glUniform1i(findUniformLocation(uniformName), textureUnit);
+}
+
+void Material::setTexture2D(int textureUnit, const Texture2D* texture) {
+	if (texture)
+		m_textures[textureUnit] = texture;
+	else
+		m_textures.erase(textureUnit);
+}
+
+void Material::use() const {
+	glUseProgram(m_programId);
+	for (const auto& pair : m_textures) {
+		pair.second->bindToTextureUnit(pair.first);
+	}
+}
+
+int Material::findUniformLocation(std::string_view name) const {
+	return glGetUniformLocation(m_programId, name.data());
+}
 
 unsigned int Material::link() {
 	unsigned int program{ glCreateProgram() };

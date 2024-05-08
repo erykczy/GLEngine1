@@ -1,11 +1,17 @@
 #pragma once
+
 #include <vector>
-#include <memory>
-#include "components/Component.h"
+
+class Scene;
+class Transform;
+class Component;
 
 class GameObject final {
 public:
-	GameObject() = default;
+	Transform* transform{};
+	Scene* scene{};
+
+	GameObject(Scene* _scene);
 	~GameObject();
 
 	GameObject(const GameObject& source) = delete;
@@ -17,13 +23,8 @@ public:
 	template<typename T>
 	T& addComponent();
 
-	void update() {
-		for (auto* element : m_components) element->update();
-	}
-
-	void render() {
-		for (auto* element : m_components) element->render();
-	}
+	void update();
+	void render();
 
 private:
 	std::vector<Component*> m_components{};
@@ -40,7 +41,8 @@ T& GameObject::getComponent() const {
 
 template<typename T>
 T& GameObject::addComponent() {
-	auto* comp{ new T{} };
+	auto* comp{ new T{ this, transform } };
 	m_components.push_back(comp);
+	comp->awake();
 	return *comp;
 }

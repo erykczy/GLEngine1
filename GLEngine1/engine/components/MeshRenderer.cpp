@@ -1,6 +1,10 @@
-#include "MeshRenderer.h"
+#include "engine/components/MeshRenderer.h"
 
-MeshRenderer::MeshRenderer() {
+#include "engine/Material.h"
+
+#include <glad/glad.h>
+
+void MeshRenderer::awake() {
 	glGenVertexArrays(1, &m_vao);
 	glGenBuffers(1, &m_position_vbo);
 	glGenBuffers(1, &m_uv_vbo);
