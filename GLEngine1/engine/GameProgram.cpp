@@ -19,7 +19,6 @@ GameProgram::GameProgram() {
 }
 
 GameProgram::~GameProgram() {
-	delete input;
 	delete activeScene;
 	delete activeWindow;
 }
@@ -29,7 +28,7 @@ void GameProgram::startProgram() {
 	activeWindow = new Window{ AppConstants::defaultScreenWidth, AppConstants::defaultScreenHeight, AppConstants::windowTitle };
 	setupOpenGL();
 	activeScene = new Scene{};
-	input = new Input{ activeWindow };
+	Input::initialize(activeWindow);
 	renderLoop();
 }
 
@@ -54,8 +53,8 @@ void GameProgram::renderLoop() {
 		activeScene->renderToActiveCamera();
 
 		activeWindow->swapBuffers();
+		Input::onFrameEnd();
 		activeWindow->pollEvents();
-		input->clearFrameData();
 	}
 }
 

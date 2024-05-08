@@ -1,11 +1,11 @@
 #pragma once
 #include "engine/IEventSender.h"
 #include "engine/IWindowEventListener.h"
+#include "engine/Input.h"
 
 #include <string_view>
 
 struct GLFWwindow;
-class Input;
 
 class Window final : public IEventSender<IWindowEventListener> {
 public:
@@ -25,7 +25,7 @@ public:
 
 	static void onWindowSizeChanged(GLFWwindow* window, int width, int height);
 
-	friend Input;
+	friend void Input::initialize(Window* window);
 
 private:
 	GLFWwindow* m_glfw_window{};

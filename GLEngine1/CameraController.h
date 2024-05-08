@@ -6,8 +6,8 @@ class CameraController final : public Component {
 public:
 	using Component::Component;
 
-	float movementSpeed{ 0.01f };
-	float rotationSpeed{ 0.01f };
+	float movementSpeed{ 0.05f };
+	float rotationSpeed{ 0.001f };
 
 	void update() override;
 };

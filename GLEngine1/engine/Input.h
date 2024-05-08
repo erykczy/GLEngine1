@@ -1,35 +1,28 @@
 #pragma once
+#include <glm/vec3.hpp>
 #include <stdexcept>
 #include <vector>
 
 class Window;
 struct GLFWwindow;
 
-class Input final {
-public:
-	static Input* s_input;
+namespace Input {
+	void initialize(Window* window);
 
-	Input(Window* window);
+	bool isKeyPressed(int key);
+	bool isKeyDown(int key);
+	bool isKeyReleased(int key);
+	bool isMouseButtonPressed(int button);
+	bool isMouseButtonDown(int button);
+	bool isMouseButtonReleased(int button);
+	glm::vec3 getMousePos();
+	glm::vec3 getMousePosDelta();
 
-	static bool isKeyPressed(int key);
-	static bool isKeyDown(int key);
-	static bool isKeyReleased(int key);
+	void setCursorVisible(bool value);
 
-	void clearFrameData();
-
-private:
-	GLFWwindow* m_window{};
-
-	// keys pressed this frame
-	std::vector<int> m_frameKeysPressed{};
-
-	// keys released this frame
-	std::vector<int> m_frameKeysReleased{};
-
-	// keys held (including pressed this frame)
-	std::vector<int> m_keysHeld{};
+	void onFrameEnd();
 
 	void onKeyEvent(GLFWwindow* window, int key, int scancode, int action, int mods);
-
-	static void static_onKeyEvent(GLFWwindow* window, int key, int scancode, int action, int mods);
+	void onMouseButtonEvent(GLFWwindow* window, int button, int action, int mods);
+	void onMousePosEvent(GLFWwindow* window, double posX, double posY);
 };

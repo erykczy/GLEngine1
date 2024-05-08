@@ -12,6 +12,7 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <engine/Input.h>
 
 class Program final : public GameProgram {
 public:
@@ -25,6 +26,7 @@ private:
 	GameObject* m_myplane{};
 
 	void start() override {
+		Input::setCursorVisible(false);
 		m_texture = new Texture2D{ "textures/texture.png", Texture2D::rgba };
 
 		m_defaultMaterial = new Material{ "shaders/default/vertex.glsl", "shaders/default/fragment.glsl" };
@@ -33,7 +35,7 @@ private:
 
 		m_myplane = &activeScene->createGameObject();
 		auto& meshRenderer = m_myplane->addComponent<MeshRenderer>();
-		Mesh mesh{ Mathf::createPlane() };
+		Mesh mesh{ Mathf::createCube() };
 		meshRenderer.setMesh(mesh);
 		meshRenderer.setMaterial(m_defaultMaterial);
 		m_myplane->transform->eulerAngles = { 0.0f, 0.0f, 0.0f};
@@ -45,26 +47,10 @@ private:
 		activeScene->setActiveCamera(&camera);
 
 		cameraObj.addComponent<CameraController>();
-
-		// Experiment
-		auto& dummyObj{ activeScene->createGameObject() };
-		dummyObj.transform->position = { 1.0f, 1.0f, 1.0f };
-
-		auto cameraForward = camera.transform->getForward();
-
-		auto modelMat{ dummyObj.transform->createModelMatrix() };
-		auto viewMat{ camera.createViewMatrix() };
-		auto projectionMat{ camera.getProjectionMatrix() };
-		auto one{ glm::vec4(1.0f, 1.0f, 1.0f, 1.0f) };
-
-		std::cout << "in: " << one << "\n";
-		std::cout << "post_model: " << (modelMat * one) << "\n";
-		std::cout << "post_view: " << (viewMat * modelMat * one) << "\n";
-		std::cout << "post_projection: " << (projectionMat * viewMat * modelMat * one) << "\n";
 	}
 
 	void update() override {
-		//m_myplane->transform->eulerAngles += glm::vec3{ 0.01f, 0.0f, 0.0f };
+		m_myplane->transform->eulerAngles += glm::vec3{ 0.01f, 0.0f, 0.0f };
 		//activeScene->getActiveCamera()->transform->eulerAngles += glm::vec3{ 0.01f, 0.0f, 0.0f };
 	}
 };

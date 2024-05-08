@@ -3,14 +3,12 @@
 struct GLFWwindow;
 class Window;
 class Scene;
-class Input;
 
 class GameProgram {
 public:
 	static GameProgram* s_runningProgram;
 	Window* activeWindow{};
 	Scene* activeScene{};
-	Input* input{};
 
 	GameProgram();
 
