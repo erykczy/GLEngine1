@@ -52,7 +52,7 @@ private:
 	}
 
 	void update() override {
-		m_myplane->transform->eulerAngles += glm::vec3{ 1.0f * Time::getDeltaTime(), 0.0f, 0.0f};
+		//m_myplane->transform->eulerAngles += glm::vec3{ 1.0f * Time::getDeltaTime(), 0.0f, 0.0f};
 	}
 };
 

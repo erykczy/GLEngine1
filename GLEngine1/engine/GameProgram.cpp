@@ -43,6 +43,7 @@ void GameProgram::setupOpenGL() {
 	}
 
 	glEnable(GL_DEPTH_TEST);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
 void GameProgram::renderLoop() {

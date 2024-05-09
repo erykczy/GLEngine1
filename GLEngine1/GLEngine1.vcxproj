@@ -193,6 +193,7 @@
     <ClInclude Include="engine\IWindowEventListener.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="TODO.md" />
     <None Include="shaders\default\fragment.glsl" />
     <None Include="shaders\default\vertex.glsl" />
   </ItemGroup>
