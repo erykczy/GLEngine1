@@ -66,8 +66,8 @@ namespace Input {
 	}
 
 	void onMousePosEvent(GLFWwindow* window, double posX, double posY) {
-		m_frameMousePos.x = posX;
-		m_frameMousePos.y = posY;
+		m_frameMousePos.x = static_cast<float>(posX);
+		m_frameMousePos.y = static_cast<float>(posY);
 	}
 
 	bool isKeyPressed(int key) {

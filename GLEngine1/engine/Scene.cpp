@@ -18,6 +18,6 @@ void Scene::renderToActiveCamera() {
 		m_activeCamera->renderScene();
 	}
 	else {
-		Debug::log(Debug::warning, "There is no active camera!");
+		Debug::logger << "There is no active camera!" << Debug::endWarning;
 	}
 }

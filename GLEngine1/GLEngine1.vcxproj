@@ -157,6 +157,7 @@
     <ClCompile Include="engine\components\Component.cpp" />
     <ClCompile Include="engine\components\MeshRenderer.cpp" />
     <ClCompile Include="engine\components\Transform.cpp" />
+    <ClCompile Include="engine\Debug.cpp" />
     <ClCompile Include="engine\GameObject.cpp" />
     <ClCompile Include="engine\GameProgram.cpp" />
     <ClCompile Include="engine\Input.cpp" />

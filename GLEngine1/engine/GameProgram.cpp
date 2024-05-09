@@ -5,6 +5,7 @@
 #include "engine/Scene.h"
 #include "engine/Input.h"
 #include "engine/Time.h"
+#include "engine/Debug.h"
 #include "libraries/stb_image.h"
 
 #include <glad/glad.h>

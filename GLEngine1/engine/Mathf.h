@@ -31,7 +31,7 @@ namespace Mathf {
 		float x4, float y4, float z4,
 		std::vector<float>& vertices, std::vector<unsigned int>& indicies, std::vector<float>& uv
 	) {
-		size_t startIndex{ vertices.size() / 3 };
+		unsigned int startIndex{ static_cast<unsigned int>(vertices.size() / 3) };
 
 		// vertices
 		vertices.push_back(x1);
