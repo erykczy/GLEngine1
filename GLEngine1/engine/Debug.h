@@ -1,12 +1,15 @@
 #pragma once
 
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
-#include <glm/vec4.hpp>
+#include "AppConstants.h"
 
-#include <string_view>
-#include <iostream>
 #include <sstream>
+#include <iomanip>
+
+namespace glm {
+	typedef vec<2, float, defaultp>	vec2;
+	typedef vec<3, float, defaultp>	vec3;
+	typedef vec<4, float, defaultp>	vec4;
+}
 
 namespace Debug {
 	enum DebugType {
@@ -27,35 +30,26 @@ namespace Debug {
 		DebugType getErrorSensitivity() const { return m_errorSensitivity; }
 		void setDebugSensitivity(DebugType type);
 		void setErrorSensitivity(DebugType type);
+		void setNumberPrecision(int precision) { m_numberPrecision = precision; }
 
 	private:
 		DebugType m_debugSensitivity{ endDebug };
 		DebugType m_errorSensitivity{ endError };
 		std::stringstream m_message{};
+		int m_numberPrecision{ AppConstants::defaultDebugNumberPrecision };
 
 		std::string getTag(DebugType type);
 	};
 
 	template<typename T>
 	Logger& Logger::operator<<(const T& data) {
-		m_message << data;
+		m_message << std::fixed << std::setprecision(m_numberPrecision) << data;
 		return *this;
 	}
 
 	inline Logger logger{};
 }
 
-inline std::ostream& operator<<(std::ostream& out, const glm::vec2& vec) {
-	out << "(" << vec.x << ", " << vec.y << ")";
-	return out;
-}
-
-inline std::ostream& operator<<(std::ostream& out, const glm::vec3& vec) {
-	out << "(" << vec.x << ", " << vec.y << ", " << vec.z << ")";
-	return out;
-}
-
-inline std::ostream& operator<<(std::ostream& out, const glm::vec4& vec) {
-	out << "(" << vec.x << ", " << vec.y << ", " << vec.z << ", " << vec.w << ")";
-	return out;
-}
+std::ostream& operator<<(std::ostream& out, const glm::vec2& vec);
+std::ostream& operator<<(std::ostream& out, const glm::vec3& vec);
+std::ostream& operator<<(std::ostream& out, const glm::vec4& vec);

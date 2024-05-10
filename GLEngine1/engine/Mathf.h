@@ -1,6 +1,8 @@
 #pragma once
+#define GLM_ENABLE_EXPERIMENTAL
 #include "Mesh.h"
 #include <glm/ext/matrix_transform.hpp>
+#include <glm/gtx/vector_angle.hpp>
 
 namespace Mathf {
 	inline Mesh createPlane() {
@@ -122,21 +124,32 @@ namespace Mathf {
 		return Mesh{ vertices, indicies, uv };
 	}
 
-	inline glm::mat4& rotate(glm::mat4& mat, glm::vec3 eulerAngles) {
-		mat = glm::rotate(mat, eulerAngles.y, glm::vec3(0.0, 1.0, 0.0));
-		mat = glm::rotate(mat, eulerAngles.x, glm::vec3(1.0, 0.0, 0.0));
-		mat = glm::rotate(mat, eulerAngles.z, glm::vec3(0.0, 0.0, 1.0));
+	inline glm::mat4& rotate(glm::mat4& mat, const glm::vec3& eulerAngles) {
+		mat = glm::rotate(mat, eulerAngles.y, glm::vec3{ 0.0, 1.0, 0.0 });
+		mat = glm::rotate(mat, eulerAngles.x, glm::vec3{ 1.0, 0.0, 0.0 });
+		mat = glm::rotate(mat, -eulerAngles.z, glm::vec3{ 0.0, 0.0, 1.0 });
 		return mat;
 	}
 
-	inline glm::vec3 rotateVector(glm::vec3 vec, glm::vec3 eulerAngles) {
+	inline glm::vec3 rotateVector(const glm::vec3& vec, const glm::vec3& eulerAngles) {
 		glm::mat4 mat{ 1.0 };
 		mat = Mathf::rotate(mat, eulerAngles);
 
 		return mat * glm::vec4(vec, 1.0f);
 	}
 
-	inline glm::vec3 eulerAnglesToDirection(glm::vec3 eulerAngles) {
-		return rotateVector(glm::vec3(0.0f, 0.0f, 1.0f), eulerAngles);
+	inline glm::vec3 eulerAnglesToDirection(const glm::vec3& eulerAngles) {
+		return rotateVector(glm::vec3{ 0.0f, 0.0f, 1.0f }, eulerAngles);
 	}
+
+	/*inline glm::vec3 directionToEulerAngles(const glm::vec3& forward, const glm::vec3& up) {
+		float pitch{ std::atan2(-forward.y, forward.z) };
+		float yaw{ std::atan2(forward.x, forward.z) };
+		glm::vec3 notRolledUp{ rotateVector(glm::vec3{ 0.0f, 1.0f, 0.0f }, glm::vec3{ pitch, yaw, 0.0f }) };
+		return glm::vec3{
+			pitch,
+			yaw,
+			0
+		};
+	}*/
 }

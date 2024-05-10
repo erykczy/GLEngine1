@@ -23,12 +23,11 @@ void Camera::renderScene() {
 }
 
 glm::mat4 Camera::createViewMatrix() const {
-	return glm::lookAt(transform->position, transform->position - transform->getForward(), transform->getUp());;
+	return glm::lookAtLH(transform->position, transform->position + transform->getForward(), transform->getUp());
 }
 
 void Camera::updateProjectionMatrix() {
-	static glm::vec3 invert{ 1.0f, 1.0f, -1.0f };
-	m_projectionMatrix = glm::scale(glm::perspective(m_fovRadians, m_aspectRatio, m_nearPlane, m_farPlane), invert);
+	m_projectionMatrix = glm::perspectiveLH(m_fovRadians, m_aspectRatio, m_nearPlane, m_farPlane);
 }
 
 void Camera::setFov(float valueRadians) {

@@ -1,5 +1,10 @@
 #include "engine/Debug.h"
 
+#include <iostream>
+#include <glm/vec2.hpp>
+#include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
+
 namespace Debug {
 	Logger& Logger::operator<<(DebugType type) {
 		if (type >= m_errorSensitivity) {
@@ -33,4 +38,19 @@ namespace Debug {
 		if (m_debugSensitivity < 0) Debug::logger << "Invalid debug type!" << Debug::endError;
 		m_errorSensitivity = type;
 	}
+}
+
+std::ostream& operator<<(std::ostream& out, const glm::vec2& vec) {
+	out << "(" << vec.x << ", " << vec.y << ")";
+	return out;
+}
+
+std::ostream& operator<<(std::ostream& out, const glm::vec3& vec) {
+	out << "(" << vec.x << ", " << vec.y << ", " << vec.z << ")";
+	return out;
+}
+
+std::ostream& operator<<(std::ostream& out, const glm::vec4& vec) {
+	out << "(" << vec.x << ", " << vec.y << ", " << vec.z << ", " << vec.w << ")";
+	return out;
 }

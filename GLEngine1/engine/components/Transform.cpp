@@ -19,6 +19,19 @@ glm::mat4 Transform::createModelMatrix() {
 	return mat;
 }
 
+glm::vec3 Transform::localPositionToWorld(const glm::vec3& vec)
+{
+	return createModelMatrix() * glm::vec4(vec, 1.0f);
+}
+
+glm::vec3 Transform::localDirectionToWorld(const glm::vec3& vec)
+{
+	glm::mat4 mat{ 1.0 };
+	mat = Mathf::rotate(mat, eulerAngles);
+
+	return mat * glm::vec4(vec, 1.0f);
+}
+
 glm::vec3 Transform::getForward() {
 	return Mathf::eulerAnglesToDirection(eulerAngles);
 }

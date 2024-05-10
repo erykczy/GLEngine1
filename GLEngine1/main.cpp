@@ -53,7 +53,10 @@ private:
 
 	void update() override {
 		//m_myplane->transform->eulerAngles += glm::vec3{ 1.0f * Time::getDeltaTime(), 0.0f, 0.0f};
-		Debug::logger << "Information" << 5 << " to jest: " << glm::vec3(0.6, 1.0, 0.5) << Debug::endWarning;
+		auto* camera = activeScene->getActiveCamera();
+		//Debug::logger << "True      euler angles: " << camera->transform->eulerAngles << Debug::endDebug;
+		//Debug::logger << "Generated euler angles: " << Mathf::directionToEulerAngles(camera->transform->getForward(), camera->transform->getUp()) << Debug::endDebug;
+		//auto up{ camera->transform->getUp() };/
 	}
 };
 
