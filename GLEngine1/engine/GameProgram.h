@@ -19,13 +19,11 @@ public:
 	void startProgram();
 
 protected:
-	virtual void start() = 0;
+	virtual void setupScene() = 0;
 	virtual void update() = 0;
 
 private:
-	void setupWindow();
 	void setupLibraries();
 	void setupOpenGL();
-	void setupScene();
 	void renderLoop();
 };

@@ -18,6 +18,9 @@ public:
 	glm::vec3 scale{ 1.0f, 1.0f, 1.0f };
 	glm::vec3 eulerAngles{};
 
+	glm::vec3 localPositionToWorld(const glm::vec3& vec);
+	glm::vec3 localDirectionToWorld(const glm::vec3& vec);
+
 	glm::mat4 createModelMatrix();
 	glm::vec3 getForward();
 	glm::vec3 getUp();

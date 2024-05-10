@@ -3,6 +3,9 @@
 #include "engine/AppConstants.h"
 #include "engine/Window.h"
 #include "engine/Scene.h"
+#include "engine/Input.h"
+#include "engine/Time.h"
+#include "engine/Debug.h"
 #include "libraries/stb_image.h"
 
 #include <glad/glad.h>
@@ -23,20 +26,28 @@ GameProgram::~GameProgram() {
 }
 
 void GameProgram::startProgram() {
-	setupWindow();
+	// set up libraries
 	setupLibraries();
-	setupScene();
+
+	// set up window
+	activeWindow = new Window{ AppConstants::defaultScreenWidth, AppConstants::defaultScreenHeight, AppConstants::windowTitle };
+
+	// set up opengl
+	setupOpenGL();
+
+	// set up scene
+	activeScene = new Scene{};
+
+	// set up input
+	Input::initialize(activeWindow);
+	Input::setCursorVisible(false);
+
+	// start render loop
 	renderLoop();
 }
 
 void GameProgram::setupLibraries() {
-	setupOpenGL();
-
 	stbi_set_flip_vertically_on_load(true);
-}
-
-void GameProgram::setupWindow() {
-	activeWindow = new Window{ AppConstants::defaultScreenWidth, AppConstants::defaultScreenHeight, AppConstants::windowTitle };
 }
 
 void GameProgram::setupOpenGL() {
@@ -47,19 +58,17 @@ void GameProgram::setupOpenGL() {
 	glEnable(GL_DEPTH_TEST);
 }
 
-void GameProgram::setupScene() {
-	activeScene = new Scene{};
-}
-
 void GameProgram::renderLoop() {
-	start();
+	setupScene();
 	while (!activeWindow->isClosed()) {
+		Time::onFrameStart();
 		update();
 		activeScene->update();
 
 		activeScene->renderToActiveCamera();
 
 		activeWindow->swapBuffers();
+		Input::onFrameEnd();
 		activeWindow->pollEvents();
 	}
 }

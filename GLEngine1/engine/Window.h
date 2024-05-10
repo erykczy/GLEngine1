@@ -1,6 +1,7 @@
 #pragma once
 #include "engine/IEventSender.h"
 #include "engine/IWindowEventListener.h"
+#include "engine/Input.h"
 
 #include <string_view>
 
@@ -23,6 +24,8 @@ public:
 	float getAspectRatio() const { return static_cast<float>(m_width) / m_height; }
 
 	static void onWindowSizeChanged(GLFWwindow* window, int width, int height);
+
+	friend void Input::initialize(Window* window);
 
 private:
 	GLFWwindow* m_glfw_window{};

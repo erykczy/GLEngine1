@@ -13,7 +13,7 @@ public:
 	Scene(const Scene&) = delete;
 	Scene& operator=(const Scene&) = delete;
 
-	GameObject& createGameObject();
+	GameObject& createGameObject(const glm::vec3& position);
 	
 	void update();
 

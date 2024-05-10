@@ -10,4 +10,5 @@ namespace AppConstants {
 	inline constexpr float defaultCameraNearPlane{ 0.1f };
 	inline constexpr float defaultCameraFarPlane{ 100.1f };
 	inline constexpr const char* windowTitle{ "Game" };
+	inline constexpr int defaultDebugNumberPrecision{ 2 };
 }

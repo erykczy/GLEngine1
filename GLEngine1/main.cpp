@@ -1,3 +1,4 @@
+#include "CameraController.h"
 #include "engine/GameProgram.h"
 #include "engine/components/MeshRenderer.h"
 #include "engine/Mathf.h"
@@ -8,6 +9,8 @@
 #include "engine/Texture2D.h"
 #include "engine/Scene.h"
 #include "engine/components/Transform.h"
+#include "engine/Input.h"
+#include "engine/Time.h"
 
 #include <iostream>
 #include <stdexcept>
@@ -21,48 +24,30 @@ public:
 private:
 	Material* m_defaultMaterial{};
 	Texture2D* m_texture{};
-	GameObject* m_myplane{};
 
-	void start() override {
+	void setupScene() override {
+		Debug::setWireframeRendering(false);
 		m_texture = new Texture2D{ "textures/texture.png", Texture2D::rgba };
 
 		m_defaultMaterial = new Material{ "shaders/default/vertex.glsl", "shaders/default/fragment.glsl" };
 		m_defaultMaterial->setTextureUnit("MainTex", 0);
-		m_defaultMaterial->setTexture2D(0, m_texture);
+		m_defaultMaterial->bindTextureUnit(0, m_texture);
 
-		m_myplane = &activeScene->createGameObject();
-		auto& meshRenderer = m_myplane->addComponent<MeshRenderer>();
-		Mesh mesh{ Mathf::createPlane() };
-		meshRenderer.setMesh(mesh);
+		auto& mycube{ activeScene->createGameObject({ 0.0f, 0.0f, 0.0f }) };
+		auto& meshRenderer = mycube.addComponent<MeshRenderer>();
+		meshRenderer.setMesh(Mathf::createCube());
 		meshRenderer.setMaterial(m_defaultMaterial);
-		m_myplane->transform->eulerAngles = { 0.0f, 0.0f, 0.0f};
 
-		auto& cameraObj{ activeScene->createGameObject() };
+		auto& cameraObj{ activeScene->createGameObject({ 0.0f, 0.0f, -5.0f }) };
 		auto& camera{ cameraObj.addComponent<Camera>() };
-		cameraObj.transform->position = { 0.0, 0.0, -5.0 };
 		camera.setAutoAspectRatio(true);
 		activeScene->setActiveCamera(&camera);
 
-		// Experiment
-		auto& dummyObj{ activeScene->createGameObject() };
-		dummyObj.transform->position = { 1.0f, 1.0f, 1.0f };
-
-		auto cameraForward = camera.transform->getForward();
-
-		auto modelMat{ dummyObj.transform->createModelMatrix() };
-		auto viewMat{ camera.createViewMatrix() };
-		auto projectionMat{ camera.getProjectionMatrix() };
-		auto one{ glm::vec4(1.0f, 1.0f, 1.0f, 1.0f) };
-
-		std::cout << "in: " << one << "\n";
-		std::cout << "post_model: " << (modelMat * one) << "\n";
-		std::cout << "post_view: " << (viewMat * modelMat * one) << "\n";
-		std::cout << "post_projection: " << (projectionMat * viewMat * modelMat * one) << "\n";
+		cameraObj.addComponent<CameraController>();
 	}
 
 	void update() override {
-		//m_myplane->transform->eulerAngles += glm::vec3{ 0.01f, 0.0f, 0.0f };
-		//activeScene->getActiveCamera()->transform->eulerAngles += glm::vec3{ 0.01f, 0.0f, 0.0f };
+
 	}
 };
 

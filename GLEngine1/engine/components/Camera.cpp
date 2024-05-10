@@ -23,12 +23,11 @@ void Camera::renderScene() {
 }
 
 glm::mat4 Camera::createViewMatrix() const {
-	return glm::lookAt(transform->position, transform->position - transform->getForward(), transform->getUp());;
+	return glm::lookAtLH(transform->position, transform->position + transform->getForward(), transform->getUp());
 }
 
 void Camera::updateProjectionMatrix() {
-	static glm::vec3 invert{ 1.0f, 1.0f, -1.0f };
-	m_projectionMatrix = glm::scale(glm::perspective(m_fovRadians, m_aspectRatio, m_nearPlane, m_farPlane), invert);
+	m_projectionMatrix = glm::perspectiveLH(m_fovRadians, m_aspectRatio, m_nearPlane, m_farPlane);
 }
 
 void Camera::setFov(float valueRadians) {
@@ -48,7 +47,7 @@ void Camera::setFarPlane(float value) {
 
 void Camera::setAspectRatio(float value) {
 	if (m_autoAspectRatio)
-		Debug::log(Debug::warning, "You are trying to change aspect ratio while it is updated automatically. Change autoAspectRatio value!");
+		Debug::logger << "You are trying to change aspect ratio while it is updated automatically. Change autoAspectRatio value!" << Debug::endWarning;
 	m_aspectRatio = value;
 	updateProjectionMatrix();
 }

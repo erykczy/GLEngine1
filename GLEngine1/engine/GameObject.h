@@ -1,5 +1,6 @@
 #pragma once
 
+#include <glm/vec3.hpp>
 #include <vector>
 
 class Scene;
@@ -12,7 +13,7 @@ public:
 	Transform* transform{};
 	Scene* scene{};
 
-	GameObject(Scene* _scene);
+	GameObject(Scene* _scene, const glm::vec3& position);
 	~GameObject();
 
 	GameObject(const GameObject& source) = delete;
