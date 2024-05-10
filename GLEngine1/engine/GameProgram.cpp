@@ -26,11 +26,23 @@ GameProgram::~GameProgram() {
 }
 
 void GameProgram::startProgram() {
+	// set up libraries
 	setupLibraries();
+
+	// set up window
 	activeWindow = new Window{ AppConstants::defaultScreenWidth, AppConstants::defaultScreenHeight, AppConstants::windowTitle };
+
+	// set up opengl
 	setupOpenGL();
+
+	// set up scene
 	activeScene = new Scene{};
+
+	// set up input
 	Input::initialize(activeWindow);
+	Input::setCursorVisible(false);
+
+	// start render loop
 	renderLoop();
 }
 
@@ -44,11 +56,10 @@ void GameProgram::setupOpenGL() {
 	}
 
 	glEnable(GL_DEPTH_TEST);
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
 void GameProgram::renderLoop() {
-	start();
+	setupScene();
 	while (!activeWindow->isClosed()) {
 		Time::onFrameStart();
 		update();

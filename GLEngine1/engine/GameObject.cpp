@@ -3,9 +3,10 @@
 #include "engine/components/Transform.h"
 #include "engine/components/Camera.h"
 
-GameObject::GameObject(Scene* _scene) : scene{ _scene } {
+GameObject::GameObject(Scene* _scene, const glm::vec3& position) : scene{ _scene } {
 	transform = &addComponent<Transform>();
 	transform->transform = transform;
+	transform->position = position;
 }
 
 GameObject::~GameObject() {

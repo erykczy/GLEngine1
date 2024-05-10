@@ -152,7 +152,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="engine\CameraController.cpp" />
+    <ClCompile Include="CameraController.cpp" />
     <ClCompile Include="engine\components\Camera.cpp" />
     <ClCompile Include="engine\components\Component.cpp" />
     <ClCompile Include="engine\components\MeshRenderer.cpp" />

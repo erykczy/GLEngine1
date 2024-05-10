@@ -60,7 +60,7 @@
     <ClCompile Include="engine\Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="engine\CameraController.cpp">
+    <ClCompile Include="CameraController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="engine\Time.cpp">

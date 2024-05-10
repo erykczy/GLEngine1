@@ -52,7 +52,6 @@ void Material::setSpaceTransformMatricies(glm::mat4 modelMatrix, glm::mat4 viewM
 	setMatrix4x4("projection", projectionMatrix);
 }
 
-// TODO may be not used (glUseProgram())
 void Material::setTextureUnit(std::string_view uniformName, int textureUnit) {
 	glProgramUniform1i(m_programId, findUniformLocation(uniformName), textureUnit);
 }
@@ -61,7 +60,7 @@ void Material::setMatrix4x4(std::string_view uniformName, glm::mat4 matrix) {
 	glProgramUniformMatrix4fv(m_programId, findUniformLocation(uniformName), 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
-void Material::setTexture2D(int textureUnit, const Texture2D* texture) {
+void Material::bindTextureUnit(int textureUnit, const Texture2D* texture) {
 	if (texture)
 		m_textures[textureUnit] = texture;
 	else

@@ -4,6 +4,7 @@
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
+#include <glad/glad.h>
 
 namespace Debug {
 	Logger& Logger::operator<<(DebugType type) {
@@ -37,6 +38,13 @@ namespace Debug {
 	void Logger::setErrorSensitivity(DebugType type) {
 		if (m_debugSensitivity < 0) Debug::logger << "Invalid debug type!" << Debug::endError;
 		m_errorSensitivity = type;
+	}
+
+	void setWireframeRendering(bool wireframeRendering) {
+		if(wireframeRendering)
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		else
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
 

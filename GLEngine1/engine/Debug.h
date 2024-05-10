@@ -48,6 +48,8 @@ namespace Debug {
 	}
 
 	inline Logger logger{};
+
+	void setWireframeRendering(bool wireframeRendering);
 }
 
 std::ostream& operator<<(std::ostream& out, const glm::vec2& vec);

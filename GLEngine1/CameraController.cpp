@@ -12,13 +12,6 @@ void CameraController::update() {
 	transform->eulerAngles.x -= rotationSpeed * (-delta.y);
 	transform->eulerAngles.y += rotationSpeed * delta.x;
 
-	/*if (Input::isKeyDown(GLFW_KEY_Q)) {
-		transform->eulerAngles.z -= rotationSpeed * 4;
-	}
-	if (Input::isKeyDown(GLFW_KEY_E)) {
-		transform->eulerAngles.z += rotationSpeed * 4;
-	}*/
-
 	float speedMultiplier{ Time::getUnscaledDeltaTime() };
 
 	if (Input::isKeyDown(GLFW_KEY_LEFT_SHIFT)) {

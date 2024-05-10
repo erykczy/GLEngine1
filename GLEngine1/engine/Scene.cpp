@@ -4,8 +4,8 @@
 #include "engine/components/Camera.h"
 #include "engine/Debug.h"
 
-GameObject& Scene::createGameObject() {
-	m_gameObjects.push_back(std::make_unique<GameObject>(this));
+GameObject& Scene::createGameObject(const glm::vec3& position) {
+	m_gameObjects.push_back(std::make_unique<GameObject>(this, position));
 	return *(m_gameObjects.back());
 }
 
