@@ -6,6 +6,12 @@
 
 namespace Mathf {
 	inline Mesh createPlane() {
+		std::vector<float> uv{
+			0.0, 0.0,
+			1.0, 0.0,
+			1.0, 1.0,
+			0.0, 1.0 
+		};
 		return Mesh{
 			{
 				-0.5f, -0.5f, 0.0f,
@@ -17,12 +23,8 @@ namespace Mathf {
 				0, 2, 1,
 				0, 3, 2
 			},
-			{
-				0.0, 0.0,
-				1.0, 0.0,
-				1.0, 1.0,
-				0.0, 1.0
-			}
+			&uv,
+			nullptr
 		};
 	}
 
@@ -31,7 +33,8 @@ namespace Mathf {
 		float x2, float y2, float z2,
 		float x3, float y3, float z3,
 		float x4, float y4, float z4,
-		std::vector<float>& vertices, std::vector<unsigned int>& indicies, std::vector<float>& uv
+		float normalX, float normalY, float normalZ,
+		std::vector<float>& vertices, std::vector<unsigned int>& indicies, std::vector<float>& uv, std::vector<float>& normals
 	) {
 		unsigned int startIndex{ static_cast<unsigned int>(vertices.size() / 3) };
 
@@ -73,15 +76,24 @@ namespace Mathf {
 
 		uv.push_back(0.0f);
 		uv.push_back(1.0f);
+
+		// normals
+		for (int i = 0; i < 4; i++) {
+			normals.push_back(normalX);
+			normals.push_back(normalY);
+			normals.push_back(normalZ);
+		}
 	}
 
 	inline Mesh createCube() {
 		std::vector<float> vertices{};
 		std::vector<unsigned int> indicies{};
 		std::vector<float> uv{};
-		vertices.reserve(4 * 6 * 3);
-		indicies.reserve(2 * 6 * 3);
-		uv.reserve(4 * 6 * 3);
+		std::vector<float> normals{};
+		vertices.reserve(72); // 4 * 6 * 3
+		indicies.reserve(36); // 2 * 6 * 3
+		uv.reserve(48); // 4 * 6 * 2
+		normals.reserve(72); // 4 * 6 * 3
 
 		constexpr float m{ 0.5f };
 		addPlane(
@@ -89,39 +101,45 @@ namespace Mathf {
 			+m, -m, -m,
 			+m, +m, -m,
 			-m, +m, -m,
-			vertices, indicies, uv); // front
+			0, 0, -1,
+			vertices, indicies, uv, normals); // front
 		addPlane(
 			+m, -m, +m,
 			-m, -m, +m,
 			-m, +m, +m,
 			+m, +m, +m,
-			vertices, indicies, uv); // back
+			0, 0, 1,
+			vertices, indicies, uv, normals); // back
 		addPlane(
 			-m, -m, +m,
 			+m, -m, +m,
 			+m, -m, -m,
 			-m, -m, -m,
-			vertices, indicies, uv); // down
+			0, -1, 0,
+			vertices, indicies, uv, normals); // down
 		addPlane(
 			-m, +m, -m,
 			+m, +m, -m,
 			+m, +m, +m,
 			-m, +m, +m,
-			vertices, indicies, uv); // up
+			0, 1, 0,
+			vertices, indicies, uv, normals); // up
 		addPlane(
 			+m, -m, -m,
 			+m, -m, +m,
 			+m, +m, +m,
 			+m, +m, -m,
-			vertices, indicies, uv); // right
+			1, 0, 0,
+			vertices, indicies, uv, normals); // right
 		addPlane(
 			-m, -m, +m,
 			-m, -m, -m,
 			-m, +m, -m,
 			-m, +m, +m,
-			vertices, indicies, uv); // left
+			-1, 0, 0,
+			vertices, indicies, uv, normals); // left
 
-		return Mesh{ vertices, indicies, uv };
+		return Mesh{ vertices, indicies, &uv, &normals };
 	}
 
 	inline glm::mat4& rotate(glm::mat4& mat, const glm::vec3& eulerAngles) {

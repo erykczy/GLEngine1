@@ -170,6 +170,8 @@
     <ClCompile Include="engine\Time.cpp" />
     <ClCompile Include="engine\Window.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="LightedCubeRenderer.h" />
+    <ClCompile Include="shaders\light\LightedCubeRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\AppConstants.h" />

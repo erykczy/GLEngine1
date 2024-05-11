@@ -8,7 +8,7 @@ namespace Time {
 	float unscaledDeltaTime{ 0.0f };
 
 	float getTime() {
-		return glfwGetTime();
+		return static_cast<float>(glfwGetTime());
 	}
 
 	float getDeltaTime() {

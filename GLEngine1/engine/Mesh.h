@@ -8,14 +8,14 @@ public:
 	std::vector<float> vertices{};
 	std::vector<float> uv{};
 	std::vector<unsigned int> indicies{};
+	std::vector<float> normals{};
 
-	Mesh() = default;
-	Mesh(const std::vector<float>& _vertices, const std::vector<unsigned int>& _indicies);
-	Mesh(const std::vector<float>& _vertices, const std::vector<unsigned int>& _indicies, const std::vector<float>& uv);
+	Mesh(const std::vector<float>& _vertices = {}, const std::vector<unsigned int>& _indicies = {}, const std::vector<float>* uv = nullptr, const std::vector<float>* normals = nullptr);
 
-	int getSizeOfUv() const;
-	int getSizeOfVertices() const;
-	int getSizeOfIndicies() const;
+	std::size_t getSizeOfNormals() const;
+	std::size_t getSizeOfUv() const;
+	std::size_t getSizeOfVertices() const;
+	std::size_t getSizeOfIndicies() const;
 };
 
 static_assert(std::is_move_constructible<Mesh>::value);

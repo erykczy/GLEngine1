@@ -69,6 +69,12 @@
     <ClCompile Include="engine\Debug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LightedCubeRenderer.h">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="shaders\light\LightedCubeRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\GameProgram.h">

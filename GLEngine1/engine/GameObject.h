@@ -20,10 +20,10 @@ public:
 	GameObject& operator=(const GameObject&) = delete;
 
 	template<typename T>
-	T& getComponent() const;
+	T* getComponent() const;
 
 	template<typename T>
-	T& addComponent();
+	T* addComponent();
 
 	void update();
 	void render(Camera* camera);
@@ -33,18 +33,18 @@ private:
 };
 
 template<typename T>
-T& GameObject::getComponent() const {
+T* GameObject::getComponent() const {
 	for (auto* component : m_components) {
 		auto* castedComponent{ dynamic_cast<T*>(component) };
-		if (castedComponent != nullptr) return *castedComponent;
+		if (castedComponent != nullptr) return castedComponent;
 	}
 	return nullptr;
 }
 
 template<typename T>
-T& GameObject::addComponent() {
+T* GameObject::addComponent() {
 	auto* comp{ new T{ this, transform } };
 	m_components.push_back(comp);
 	comp->awake();
-	return *comp;
+	return comp;
 }

@@ -11,6 +11,7 @@
 #include "engine/components/Transform.h"
 #include "engine/Input.h"
 #include "engine/Time.h"
+#include "LightedCubeRenderer.h"
 
 #include <iostream>
 #include <stdexcept>
@@ -32,32 +33,39 @@ private:
 	Material m_lightCubeMaterial{ "shaders/unlit/vertex.glsl", "shaders/unlit/fragment.glsl" };
 	Texture2D m_dummyCubeTexture{ "textures/texture.png", Texture2D::rgba };
 	Texture2D m_whiteTexture{ "textures/white.png", Texture2D::rgba };
+	Transform* m_lightCube{};
 
 	void onSceneSetup() override {
 		Debug::setWireframeRendering(false);
 
 		auto& dummyCube{ activeScene->createGameObject({ 0.0f, 0.0f, 0.0f }) };
-		auto& dummyRenderer = dummyCube.addComponent<MeshRenderer>();
-		dummyRenderer.setMesh(Mathf::createCube());
-		dummyRenderer.setMaterial(&m_dummyCubeMaterial);
+		auto* dummyRenderer = dummyCube.addComponent<MeshRenderer>();
+		dummyRenderer->setMesh(Mathf::createCube());
+		dummyRenderer->setMaterial(&m_dummyCubeMaterial);
+		auto* renderer{ dummyCube.addComponent<LightedCubeRenderer>() };
 
 		auto& lightCube{ activeScene->createGameObject({ -2.0f, 1.0f, 0.0f }) };
+		m_lightCube = lightCube.transform;
 		lightCube.transform->scale = glm::vec3(0.3f, 0.3f, 0.3f);
-		auto& lightCubeRenderer = lightCube.addComponent<MeshRenderer>();
-		lightCubeRenderer.setMesh(Mathf::createCube());
-		lightCubeRenderer.setMaterial(&m_lightCubeMaterial);
+		auto* lightCubeRenderer = lightCube.addComponent<MeshRenderer>();
+		lightCubeRenderer->setMesh(Mathf::createCube());
+		lightCubeRenderer->setMaterial(&m_lightCubeMaterial);
+
+		renderer->mainLight = lightCube.transform;
 
 		auto& cameraObj{ activeScene->createGameObject({ 0.0f, 0.0f, -5.0f }) };
-		auto& camera{ cameraObj.addComponent<Camera>() };
-		camera.setAutoAspectRatio(true);
-		camera.setBackgroundColor({ 0.05f, 0.05f, 0.2f });
-		activeScene->setActiveCamera(&camera);
+		auto* camera{ cameraObj.addComponent<Camera>() };
+		camera->setAutoAspectRatio(true);
+		camera->setBackgroundColor({ 0.05f, 0.05f, 0.2f });
+		activeScene->setActiveCamera(camera);
 
 		cameraObj.addComponent<CameraController>();
 	}
 
 	void update() override {
-
+		static float s_angle{ 0.0f };
+		m_lightCube->transform->position = Mathf::rotateVector(glm::vec3(0.0, 1.0f, 2.0f), glm::vec3(0, s_angle, 0));
+		s_angle += 0.5f * Time::getDeltaTime();
 	}
 };
 

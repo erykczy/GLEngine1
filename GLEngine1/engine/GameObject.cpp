@@ -4,7 +4,7 @@
 #include "engine/components/Camera.h"
 
 GameObject::GameObject(Scene* _scene, const glm::vec3& position) : scene{ _scene } {
-	transform = &addComponent<Transform>();
+	transform = addComponent<Transform>();
 	transform->transform = transform;
 	transform->position = position;
 }
