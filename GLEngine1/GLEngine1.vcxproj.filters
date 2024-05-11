@@ -133,8 +133,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\default\vertex.glsl" />
-    <None Include="shaders\default\fragment.glsl" />
+    <None Include="shaders\unlit\vertex.glsl" />
+    <None Include="shaders\unlit\fragment.glsl" />
     <None Include="TODO.md" />
+    <None Include="shaders\lit\fragment.glsl" />
+    <None Include="shaders\lit\vertex.glsl" />
   </ItemGroup>
 </Project>

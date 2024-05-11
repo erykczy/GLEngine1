@@ -37,3 +37,8 @@ void Texture2D::bindToTextureUnit(int textureUnit) const {
 	glActiveTexture(GL_TEXTURE0 + textureUnit);
 	glBindTexture(GL_TEXTURE_2D, m_id);
 }
+
+void Texture2D::unbindFromTextureUnit(int textureUnit) const {
+	glActiveTexture(GL_TEXTURE0 + textureUnit);
+	glBindTexture(GL_TEXTURE_2D, 0);
+}

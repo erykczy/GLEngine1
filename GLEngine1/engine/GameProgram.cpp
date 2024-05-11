@@ -18,14 +18,7 @@ GameProgram::GameProgram() {
 	if (s_runningProgram)
 		throw std::runtime_error("Only 1 program can be instantiated!");
 	s_runningProgram = this;
-}
 
-GameProgram::~GameProgram() {
-	delete activeScene;
-	delete activeWindow;
-}
-
-void GameProgram::startProgram() {
 	// set up libraries
 	setupLibraries();
 
@@ -40,6 +33,14 @@ void GameProgram::startProgram() {
 
 	// set up input
 	Input::initialize(activeWindow);
+}
+
+GameProgram::~GameProgram() {
+	delete activeScene;
+	delete activeWindow;
+}
+
+void GameProgram::startProgram() {
 	Input::setCursorVisible(false);
 
 	// start render loop
@@ -59,7 +60,7 @@ void GameProgram::setupOpenGL() {
 }
 
 void GameProgram::renderLoop() {
-	setupScene();
+	onSceneSetup();
 	while (!activeWindow->isClosed()) {
 		Time::onFrameStart();
 		update();

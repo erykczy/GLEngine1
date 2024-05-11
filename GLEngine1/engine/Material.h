@@ -17,9 +17,12 @@ public:
 	Material(Material&& source) noexcept;
 	Material& operator=(Material&& source) noexcept;
 
-	void setSpaceTransformMatricies(glm::mat4 modelMatrix, glm::mat4 viewMatrix, glm::mat4 projectionMatrix);
-	void setMatrix4x4(std::string_view uniformName, glm::mat4 texture);
+	void setSpaceTransformMatricies(const glm::mat4& modelMatrix, const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix);
+	void setMatrix4x4(std::string_view uniformName, const glm::mat4& matrix);
+	void setVector3(std::string_view uniformName, const glm::vec3& vec);
+	void setVector4(std::string_view uniformName, const glm::vec4& vec);
 	void setTextureUnit(std::string_view uniformName, int textureUnit);
+
 	void bindTextureUnit(int textureUnit, const Texture2D* texture);
 
 	void use() const;

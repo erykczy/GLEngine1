@@ -34,6 +34,10 @@ MeshRenderer::~MeshRenderer() {
 }
 
 void MeshRenderer::render(Camera* camera) {
+	if (!m_material) {
+		Debug::logger << "Material is not set on MeshRenderer!" << Debug::endError;
+		return;
+	}
 	m_material->use();
 	m_material->setSpaceTransformMatricies(transform->createModelMatrix(), camera->createViewMatrix(), camera->getProjectionMatrix());
 	glBindVertexArray(m_vao);

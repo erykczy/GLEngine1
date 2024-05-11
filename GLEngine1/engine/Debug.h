@@ -34,7 +34,7 @@ namespace Debug {
 
 	private:
 		DebugType m_debugSensitivity{ endDebug };
-		DebugType m_errorSensitivity{ endError };
+		DebugType m_errorSensitivity{ endFatalError };
 		std::stringstream m_message{};
 		int m_numberPrecision{ AppConstants::defaultDebugNumberPrecision };
 

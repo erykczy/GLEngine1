@@ -19,7 +19,7 @@ public:
 	void startProgram();
 
 protected:
-	virtual void setupScene() = 0;
+	virtual void onSceneSetup() = 0;
 	virtual void update() = 0;
 
 private:

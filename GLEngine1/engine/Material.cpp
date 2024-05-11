@@ -46,7 +46,7 @@ Material& Material::operator=(Material&& source) noexcept {
 	return *this;
 }
 
-void Material::setSpaceTransformMatricies(glm::mat4 modelMatrix, glm::mat4 viewMatrix, glm::mat4 projectionMatrix) {
+void Material::setSpaceTransformMatricies(const glm::mat4& modelMatrix, const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix) {
 	setMatrix4x4("model", modelMatrix);
 	setMatrix4x4("view", viewMatrix);
 	setMatrix4x4("projection", projectionMatrix);
@@ -56,8 +56,17 @@ void Material::setTextureUnit(std::string_view uniformName, int textureUnit) {
 	glProgramUniform1i(m_programId, findUniformLocation(uniformName), textureUnit);
 }
 
-void Material::setMatrix4x4(std::string_view uniformName, glm::mat4 matrix) {
+void Material::setMatrix4x4(std::string_view uniformName, const glm::mat4& matrix) {
 	glProgramUniformMatrix4fv(m_programId, findUniformLocation(uniformName), 1, GL_FALSE, glm::value_ptr(matrix));
+}
+
+void Material::setVector3(std::string_view uniformName, const glm::vec3& vec) {
+	glProgramUniform3fv(m_programId, findUniformLocation(uniformName), 1, glm::value_ptr(vec));
+}
+
+void Material::setVector4(std::string_view uniformName, const glm::vec4& vec)
+{
+	glProgramUniform4fv(m_programId, findUniformLocation(uniformName), 1, glm::value_ptr(vec));
 }
 
 void Material::bindTextureUnit(int textureUnit, const Texture2D* texture) {

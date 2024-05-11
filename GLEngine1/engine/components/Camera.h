@@ -36,6 +36,9 @@ public:
 	void setAspectRatio(float value);
 	void setAutoAspectRatio(bool value);
 
+	void setBackgroundColor(const glm::vec3& color) { m_backgroundColor = color; }
+	const glm::vec3& getBackgroundColor() { return m_backgroundColor; }
+
 	void onWindowSizeChanged(Window* window) override;
 
 private:
@@ -45,6 +48,7 @@ private:
 	float m_farPlane{ AppConstants::defaultCameraFarPlane };
 	bool m_autoAspectRatio{ false };
 	float m_aspectRatio{ static_cast<float>(AppConstants::defaultScreenWidth) / AppConstants::defaultScreenHeight };
+	glm::vec3 m_backgroundColor{};
 
 	void updateProjectionMatrix();
 };

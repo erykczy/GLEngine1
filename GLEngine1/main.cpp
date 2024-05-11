@@ -17,30 +17,40 @@
 
 class Program final : public GameProgram {
 public:
-	~Program() {
-		delete m_defaultMaterial;
-		delete m_texture;
+	Program() {
+		m_dummyCubeMaterial.setTextureUnit("MainTex", 0);
+		m_dummyCubeMaterial.bindTextureUnit(0, &m_whiteTexture);
+		m_dummyCubeMaterial.setVector4("ObjectColor", glm::vec4{ 1.0f, 0.5f, 0.31f, 1.0f });
+		m_dummyCubeMaterial.setVector3("LightColor", glm::vec3{ 1.0f, 1.0f, 1.0f });
+
+		m_lightCubeMaterial.setVector4("ObjectColor", glm::vec4{ 1.0f, 1.0f, 1.0f, 1.0f });
+		m_lightCubeMaterial.setTextureUnit("MainTex", 0);
+		m_lightCubeMaterial.bindTextureUnit(0, &m_whiteTexture);
 	}
 private:
-	Material* m_defaultMaterial{};
-	Texture2D* m_texture{};
+	Material m_dummyCubeMaterial{ "shaders/lit/vertex.glsl", "shaders/lit/fragment.glsl" };
+	Material m_lightCubeMaterial{ "shaders/unlit/vertex.glsl", "shaders/unlit/fragment.glsl" };
+	Texture2D m_dummyCubeTexture{ "textures/texture.png", Texture2D::rgba };
+	Texture2D m_whiteTexture{ "textures/white.png", Texture2D::rgba };
 
-	void setupScene() override {
+	void onSceneSetup() override {
 		Debug::setWireframeRendering(false);
-		m_texture = new Texture2D{ "textures/texture.png", Texture2D::rgba };
 
-		m_defaultMaterial = new Material{ "shaders/default/vertex.glsl", "shaders/default/fragment.glsl" };
-		m_defaultMaterial->setTextureUnit("MainTex", 0);
-		m_defaultMaterial->bindTextureUnit(0, m_texture);
+		auto& dummyCube{ activeScene->createGameObject({ 0.0f, 0.0f, 0.0f }) };
+		auto& dummyRenderer = dummyCube.addComponent<MeshRenderer>();
+		dummyRenderer.setMesh(Mathf::createCube());
+		dummyRenderer.setMaterial(&m_dummyCubeMaterial);
 
-		auto& mycube{ activeScene->createGameObject({ 0.0f, 0.0f, 0.0f }) };
-		auto& meshRenderer = mycube.addComponent<MeshRenderer>();
-		meshRenderer.setMesh(Mathf::createCube());
-		meshRenderer.setMaterial(m_defaultMaterial);
+		auto& lightCube{ activeScene->createGameObject({ -2.0f, 1.0f, 0.0f }) };
+		lightCube.transform->scale = glm::vec3(0.3f, 0.3f, 0.3f);
+		auto& lightCubeRenderer = lightCube.addComponent<MeshRenderer>();
+		lightCubeRenderer.setMesh(Mathf::createCube());
+		lightCubeRenderer.setMaterial(&m_lightCubeMaterial);
 
 		auto& cameraObj{ activeScene->createGameObject({ 0.0f, 0.0f, -5.0f }) };
 		auto& camera{ cameraObj.addComponent<Camera>() };
 		camera.setAutoAspectRatio(true);
+		camera.setBackgroundColor({ 0.05f, 0.05f, 0.2f });
 		activeScene->setActiveCamera(&camera);
 
 		cameraObj.addComponent<CameraController>();

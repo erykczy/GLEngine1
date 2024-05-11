@@ -194,9 +194,11 @@
     <ClInclude Include="engine\IWindowEventListener.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="shaders\lit\fragment.glsl" />
+    <None Include="shaders\lit\vertex.glsl" />
     <None Include="TODO.md" />
-    <None Include="shaders\default\fragment.glsl" />
-    <None Include="shaders\default\vertex.glsl" />
+    <None Include="shaders\unlit\fragment.glsl" />
+    <None Include="shaders\unlit\vertex.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

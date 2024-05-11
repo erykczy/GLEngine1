@@ -15,7 +15,7 @@ void Camera::awake() {
 }
 
 void Camera::renderScene() {
-	glClearColor(0.5, 0.5, 0.5, 1.0);
+	glClearColor(m_backgroundColor.r, m_backgroundColor.g, m_backgroundColor.b, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	for (auto& element : transform->scene->m_gameObjects)

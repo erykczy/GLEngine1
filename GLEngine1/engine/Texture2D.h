@@ -12,6 +12,7 @@ public:
 	Texture2D(std::string_view path, Format format = rgba);
 
 	void bindToTextureUnit(int textureUnit) const;
+	void unbindFromTextureUnit(int textureUnit) const;
 
 	const std::string& getPath() const { return m_path; }
 	int getWidth() const { return m_width; }
