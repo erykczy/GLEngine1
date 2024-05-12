@@ -2,6 +2,9 @@
 #include "engine/Material.h"
 
 #include "engine/Texture2D.h"
+#include "engine/components/PointLight.h"
+#include "engine/components/Camera.h"
+#include "engine/components/Transform.h"
 
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
@@ -46,6 +49,28 @@ Material& Material::operator=(Material&& source) noexcept {
 	return *this;
 }
 
+void Material::applySceneData(Scene* scene) {
+	setVector3("ViewPos", scene->getActiveCamera()->transform->position);
+	applyLighting(scene);
+}
+
+void Material::applyLighting(Scene* scene)
+{
+	auto lights{ scene->getGameObjects<PointLight>() };
+	setInt("PointLightsCount", static_cast<int>(lights.size()));
+	for(int i = 0; i < lights.size(); ++i) {
+		std::string index{ static_cast<std::string>("PointLights[") + std::to_string(i) + "]." };
+		setVector3(index + "position", lights[i]->transform->position);
+		setVector3(index + "ambient", lights[i]->ambient);
+		setVector3(index + "diffuse", lights[i]->diffuse);
+		setVector3(index + "specular", lights[i]->specular);
+
+		setFloat(index + "constant", lights[i]->constant);
+		setFloat(index + "linear", lights[i]->linear);
+		setFloat(index + "quadratic", lights[i]->quadratic);
+	}
+}
+
 void Material::setSpaceTransformMatricies(const glm::mat4& modelMatrix, const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix) {
 	setMatrix4x4("model", modelMatrix);
 	setMatrix4x4("view", viewMatrix);
@@ -72,6 +97,11 @@ void Material::setVector4(std::string_view uniformName, const glm::vec4& vec)
 void Material::setFloat(std::string_view uniformName, float value)
 {
 	glProgramUniform1f(m_programId, findUniformLocation(uniformName), value);
+}
+
+void Material::setInt(std::string_view uniformName, int value)
+{
+	glProgramUniform1i(m_programId, findUniformLocation(uniformName), value);
 }
 
 void Material::bindTextureUnit(int textureUnit, const Texture2D* texture) {

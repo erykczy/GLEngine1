@@ -11,17 +11,15 @@
 #include "engine/components/Transform.h"
 #include "engine/Input.h"
 #include "engine/Time.h"
-#include "LightedCubeRenderer.h"
+#include <engine/components/PointLight.h>
 
+#include <GLFW/glfw3.h>
 #include <iostream>
 #include <stdexcept>
 
 class Program final : public GameProgram {
 public:
 	Program() {
-		m_dummyCubeMaterial.setVector3("Light.ambient", glm::vec3{ 0.2f, 0.2f, 0.2f });
-		m_dummyCubeMaterial.setVector3("Light.diffuse", glm::vec3{ 0.5f, 0.5f, 0.5f });
-		m_dummyCubeMaterial.setVector3("Light.specular", glm::vec3{ 1.0f, 1.0f, 1.0f });
 		m_dummyCubeMaterial.setTextureUnit("Material.diffuse", 0);
 		m_dummyCubeMaterial.bindTextureUnit(0, &m_dummyCubeDiffuseTexture);
 		m_dummyCubeMaterial.setTextureUnit("Material.specular", 1);
@@ -39,7 +37,25 @@ private:
 	Texture2D m_dummyCubeDiffuseTexture{ "textures/texture.png", Texture2D::rgba };
 	Texture2D m_dummyCubeSpecularTexture{ "textures/texture_specular.png", Texture2D::rgba };
 	Texture2D m_whiteTexture{ "textures/white.png", Texture2D::rgba };
-	Transform* m_lightCube{};
+	Transform* m_lightCube1{};
+	Transform* m_lightCube2{};
+
+	Transform* addLightCube(glm::vec3 pos) {
+		auto& lightCube{ activeScene->createGameObject(pos) };
+		lightCube.transform->scale = glm::vec3(0.3f, 0.3f, 0.3f);
+		auto* lightCubeRenderer{ lightCube.addComponent<MeshRenderer>() };
+		lightCubeRenderer->setMesh(Mathf::createCube());
+		lightCubeRenderer->setMaterial(&m_lightCubeMaterial);
+
+		auto* lightComponent{ lightCube.addComponent<PointLight>() };
+		lightComponent->ambient = glm::vec3{ 0.2f, 0.2f, 0.2f };
+		lightComponent->diffuse = glm::vec3{ 0.5f, 0.5f, 0.5f };
+		lightComponent->specular = glm::vec3{ 1.0f, 1.0f, 1.0f };
+		lightComponent->constant = 1.0f;
+		lightComponent->linear = 0.09f;
+		lightComponent->quadratic = 0.032f;
+		return lightCube.transform;
+	}
 
 	void onSceneSetup() override {
 		Debug::setWireframeRendering(false);
@@ -48,16 +64,9 @@ private:
 		auto* dummyRenderer = dummyCube.addComponent<MeshRenderer>();
 		dummyRenderer->setMesh(Mathf::createCube());
 		dummyRenderer->setMaterial(&m_dummyCubeMaterial);
-		auto* renderer{ dummyCube.addComponent<LightedCubeRenderer>() };
 
-		auto& lightCube{ activeScene->createGameObject({ -2.0f, 1.0f, 0.0f }) };
-		m_lightCube = lightCube.transform;
-		lightCube.transform->scale = glm::vec3(0.3f, 0.3f, 0.3f);
-		auto* lightCubeRenderer = lightCube.addComponent<MeshRenderer>();
-		lightCubeRenderer->setMesh(Mathf::createCube());
-		lightCubeRenderer->setMaterial(&m_lightCubeMaterial);
-
-		renderer->mainLight = lightCube.transform;
+		m_lightCube1 = addLightCube({ -2.0f, 1.0f, 0.0f });
+		m_lightCube2 = addLightCube({ 2.0f, 1.0f, 0.0f });
 
 		auto& cameraObj{ activeScene->createGameObject({ 0.0f, 0.0f, -5.0f }) };
 		auto* camera{ cameraObj.addComponent<Camera>() };
@@ -70,8 +79,12 @@ private:
 
 	void update() override {
 		static float s_angle{ 0.0f };
-		m_lightCube->transform->position = Mathf::rotateVector(glm::vec3(0.0, 1.0f, 2.0f), glm::vec3(0, s_angle, 0));
+		m_lightCube2->transform->position = Mathf::rotateVector(glm::vec3(0.0, 1.0f, 2.0f), glm::vec3(0, s_angle, 0));
 		s_angle += 0.5f * Time::getDeltaTime();
+
+		float speed = Time::getDeltaTime() * 2.0f;
+		if (Input::isKeyDown(GLFW_KEY_RIGHT)) m_lightCube1->transform->position += glm::vec3{ 1.0 * speed, 0.0, 0.0 };
+		if (Input::isKeyDown(GLFW_KEY_LEFT)) m_lightCube1->transform->position += glm::vec3{ -1.0 * speed, 0.0, 0.0 };
 	}
 };
 

@@ -47,6 +47,7 @@ void MeshRenderer::render(Camera* camera) {
 	}
 	m_material->use();
 	m_material->setSpaceTransformMatricies(transform->createModelMatrix(), camera->createViewMatrix(), camera->getProjectionMatrix());
+	m_material->applySceneData(transform->scene);
 	glBindVertexArray(m_vao);
 	glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_mesh.indicies.size()), GL_UNSIGNED_INT, 0);
 }

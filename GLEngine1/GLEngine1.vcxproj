@@ -170,14 +170,13 @@
     <ClCompile Include="engine\Time.cpp" />
     <ClCompile Include="engine\Window.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="LightedCubeRenderer.h" />
-    <ClCompile Include="LightedCubeRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\AppConstants.h" />
     <ClInclude Include="CameraController.h" />
     <ClInclude Include="engine\components\Camera.h" />
     <ClInclude Include="engine\components\Component.h" />
+    <ClInclude Include="engine\components\PointLight.h" />
     <ClInclude Include="engine\components\MeshRenderer.h" />
     <ClInclude Include="engine\components\Transform.h" />
     <ClInclude Include="engine\Debug.h" />

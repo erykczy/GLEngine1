@@ -69,12 +69,6 @@
     <ClCompile Include="engine\Debug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LightedCubeRenderer.h">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LightedCubeRenderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\GameProgram.h">
@@ -135,6 +129,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="engine\Time.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\components\PointLight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
