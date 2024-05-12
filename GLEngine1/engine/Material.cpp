@@ -69,6 +69,11 @@ void Material::setVector4(std::string_view uniformName, const glm::vec4& vec)
 	glProgramUniform4fv(m_programId, findUniformLocation(uniformName), 1, glm::value_ptr(vec));
 }
 
+void Material::setFloat(std::string_view uniformName, float value)
+{
+	glProgramUniform1f(m_programId, findUniformLocation(uniformName), value);
+}
+
 void Material::bindTextureUnit(int textureUnit, const Texture2D* texture) {
 	if (texture)
 		m_textures[textureUnit] = texture;

@@ -19,10 +19,15 @@
 class Program final : public GameProgram {
 public:
 	Program() {
-		m_dummyCubeMaterial.setTextureUnit("MainTex", 0);
-		m_dummyCubeMaterial.bindTextureUnit(0, &m_whiteTexture);
-		m_dummyCubeMaterial.setVector4("ObjectColor", glm::vec4{ 1.0f, 0.5f, 0.31f, 1.0f });
-		m_dummyCubeMaterial.setVector3("LightColor", glm::vec3{ 1.0f, 1.0f, 1.0f });
+		m_dummyCubeMaterial.setVector3("Light.ambient", glm::vec3{ 0.2f, 0.2f, 0.2f });
+		m_dummyCubeMaterial.setVector3("Light.diffuse", glm::vec3{ 0.5f, 0.5f, 0.5f });
+		m_dummyCubeMaterial.setVector3("Light.specular", glm::vec3{ 1.0f, 1.0f, 1.0f });
+		m_dummyCubeMaterial.setTextureUnit("Material.diffuse", 0);
+		m_dummyCubeMaterial.bindTextureUnit(0, &m_dummyCubeDiffuseTexture);
+		m_dummyCubeMaterial.setTextureUnit("Material.specular", 1);
+		m_dummyCubeMaterial.bindTextureUnit(1, &m_dummyCubeSpecularTexture);
+		m_dummyCubeMaterial.setVector3("Material.specular", glm::vec3{ 0.5f, 0.5f, 0.5f });
+		m_dummyCubeMaterial.setFloat("Material.shininess", 32.0f);
 
 		m_lightCubeMaterial.setVector4("ObjectColor", glm::vec4{ 1.0f, 1.0f, 1.0f, 1.0f });
 		m_lightCubeMaterial.setTextureUnit("MainTex", 0);
@@ -31,7 +36,8 @@ public:
 private:
 	Material m_dummyCubeMaterial{ "shaders/lit/vertex.glsl", "shaders/lit/fragment.glsl" };
 	Material m_lightCubeMaterial{ "shaders/unlit/vertex.glsl", "shaders/unlit/fragment.glsl" };
-	Texture2D m_dummyCubeTexture{ "textures/texture.png", Texture2D::rgba };
+	Texture2D m_dummyCubeDiffuseTexture{ "textures/texture.png", Texture2D::rgba };
+	Texture2D m_dummyCubeSpecularTexture{ "textures/texture_specular.png", Texture2D::rgba };
 	Texture2D m_whiteTexture{ "textures/white.png", Texture2D::rgba };
 	Transform* m_lightCube{};
 

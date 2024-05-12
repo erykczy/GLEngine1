@@ -12,6 +12,6 @@ void LightedCubeRenderer::awake() {
 }
 
 void LightedCubeRenderer::update() {
-	m_meshRenderer->getMaterial()->setVector3("LightPos", mainLight->position);
+	m_meshRenderer->getMaterial()->setVector3("Light.position", mainLight->position);
 	m_meshRenderer->getMaterial()->setVector3("ViewPos", transform->scene->getActiveCamera()->transform->position);
 }

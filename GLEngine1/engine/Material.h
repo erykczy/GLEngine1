@@ -21,6 +21,7 @@ public:
 	void setMatrix4x4(std::string_view uniformName, const glm::mat4& matrix);
 	void setVector3(std::string_view uniformName, const glm::vec3& vec);
 	void setVector4(std::string_view uniformName, const glm::vec4& vec);
+	void setFloat(std::string_view uniformName, float value);
 	void setTextureUnit(std::string_view uniformName, int textureUnit);
 
 	void bindTextureUnit(int textureUnit, const Texture2D* texture);

@@ -72,7 +72,7 @@
     <ClCompile Include="LightedCubeRenderer.h">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="shaders\light\LightedCubeRenderer.cpp">
+    <ClCompile Include="LightedCubeRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
